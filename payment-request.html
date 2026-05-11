@@ -6,14 +6,17 @@
   <title>用款申请 - 企税康协同工作平台</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+  <link rel="stylesheet" href="./assets/responsive.css">
   <style>
     body { font-family: "Microsoft YaHei", "PingFang SC", sans-serif; }
     .drawer { width: min(760px, calc(100vw - 64px)); }
   </style>
 </head>
 <body class="bg-slate-100 text-slate-700">
-  <div class="min-h-screen w-full flex">
-    <aside class="w-64 bg-slate-900 text-slate-200 flex flex-col shrink-0">
+  <div id="sidebar-backdrop" class="fixed inset-0 z-[150] bg-slate-900/40 hidden lg:hidden"></div>
+  <div class="min-h-screen w-full flex flex-col lg:flex-row relative">
+    <aside id="app-sidebar" class="w-64 max-w-[min(18rem,88vw)] bg-slate-900 text-slate-200 flex flex-col shrink-0 fixed lg:static inset-y-0 left-0 z-[160] h-screen lg:h-auto -translate-x-full lg:translate-x-0 transition-transform duration-200 ease-out overflow-y-auto lg:overflow-visible shadow-xl lg:shadow-none">
       <div class="h-16 px-3 flex items-center border-b border-slate-800">
         <div class="w-full rounded-lg bg-white px-2 py-1.5 flex items-center justify-center">
           <img src="./assets/qishuikang-logo.png" alt="企税康Logo" class="h-8 w-full max-h-8 object-contain object-center">
@@ -79,12 +82,15 @@
       </nav>
     </aside>
 
-    <main class="flex-1 flex flex-col min-w-0">
-      <header class="h-16 bg-white border-b border-slate-200 px-6 flex items-center justify-between">
-        <div class="text-sm text-slate-500">财务管理 / <span class="text-slate-700 font-medium">用款申请</span></div>
+    <main class="flex-1 flex flex-col min-w-0 w-full">
+      <header class="h-16 bg-white border-b border-slate-200 px-4 sm:px-6 gap-2 flex items-center justify-between">
+        <div class="flex items-center gap-2 min-w-0 flex-1">
+        <button type="button" id="btn-sidebar-toggle" class="lg:hidden shrink-0 w-10 h-10 rounded-lg border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 flex items-center justify-center" aria-expanded="false" aria-controls="app-sidebar" aria-label="打开导航菜单"><i class="fa-solid fa-bars text-lg"></i></button>
+        <div class="text-sm text-slate-500 min-w-0 truncate">财务管理 / <span class="text-slate-700 font-medium">用款申请</span></div>
+        </div>
       </header>
 
-      <section class="p-6">
+      <section class="p-4 sm:p-6">
         <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm">
           <div class="grid grid-cols-7 gap-3 mb-3">
             <label class="text-xs text-slate-500">审批状态<button class="mt-1 h-9 w-full rounded border border-slate-200 bg-white px-3 text-left text-sm text-slate-600">全部</button></label>
@@ -306,5 +312,6 @@
       });
     })();
   </script>
+  <script src="./assets/app-shell.js"></script>
 </body>
 </html>
