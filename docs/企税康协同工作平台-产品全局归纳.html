@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>企税康协同工作平台 — 产品全局归纳</title>
+  <style>
+    @page { margin: 18mm 16mm; }
+    body {
+      font-family: "Microsoft YaHei", "PingFang SC", "SimSun", sans-serif;
+      font-size: 11pt;
+      line-height: 1.65;
+      color: #1e293b;
+      max-width: 210mm;
+      margin: 0 auto;
+      padding: 12mm;
+    }
+    h1 { font-size: 22pt; color: #0f172a; border-bottom: 3px solid #2563eb; padding-bottom: 8px; margin-top: 0; }
+    h2 { font-size: 15pt; color: #1e40af; margin-top: 28px; page-break-after: avoid; }
+    h3 { font-size: 12.5pt; color: #334155; margin-top: 20px; page-break-after: avoid; }
+    .meta { font-size: 9.5pt; color: #64748b; margin-bottom: 24px; }
+    table { width: 100%; border-collapse: collapse; margin: 12px 0 20px; font-size: 10pt; page-break-inside: avoid; }
+    th, td { border: 1px solid #cbd5e1; padding: 6px 8px; text-align: left; vertical-align: top; }
+    th { background: #f1f5f9; font-weight: 600; }
+    tr:nth-child(even) td { background: #f8fafc; }
+    pre, .flow {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      padding: 12px 14px;
+      font-size: 9.5pt;
+      line-height: 1.5;
+      white-space: pre-wrap;
+      page-break-inside: avoid;
+    }
+    ul { margin: 8px 0 16px; padding-left: 22px; }
+    li { margin: 4px 0; }
+    .footer { margin-top: 32px; padding-top: 12px; border-top: 1px solid #e2e8f0; font-size: 9pt; color: #94a3b8; text-align: center; }
+    .page-break { page-break-before: always; }
+  </style>
+</head>
+<body>
+
+<h1>企税康协同工作平台 — 产品全局归纳</h1>
+<p class="meta">文档说明：基于 D:\Q2 项目全部 HTML 原型页面（共 31 个）梳理 · 生成日期：2026-05-26<br>
+已排除已删除页面：approval-center.html（审批中心）、invoice-management.html（开票管理）</p>
+
+<h2>一、系统核心业务目标</h2>
+<p><strong>企税康协同工作平台</strong>面向财税/企服机构（销售、顾问、政务经办、财务、人事、管理层），目标是把<strong>获客 → 签约 → 履约 → 收款 → 运营管控</strong>串成一条协同链路：</p>
+
+<table>
+  <thead><tr><th>目标维度</th><th>具体诉求</th></tr></thead>
+  <tbody>
+    <tr><td>销售增长</td><td>线索/商机跟进、目标与业绩考核、合同签署与订单收款</td></tr>
+    <tr><td>客户全生命周期</td><td>客户主数据、档案维护、物品移交、多业务线服务状态可视</td></tr>
+    <tr><td>履约交付</td><td>政务服务工单、代账客户服务、注册地址/房间资源管理</td></tr>
+    <tr><td>经营与内控</td><td>合同订单、开票与收款、报销与人事审批、薪酬发放、经营报表</td></tr>
+    <tr><td>组织与系统</td><td>员工/部门、角色权限、字典与菜单配置、知识库赋能一线</td></tr>
+    <tr><td>管理驾驶舱</td><td>工作台聚合 KPI、待办、排行与业务速览，支撑日常决策</td></tr>
+  </tbody>
+</table>
+<p><strong>本质定位：</strong>B2B 财税服务企业的一站式内部协同 OS，以「客户」为中心，销售与交付双线并行。</p>
+
+<h2>二、系统功能模块</h2>
+<p>按侧栏信息架构（assets/menu-data.js）划分为 <strong>7 大模块 + 登录入口</strong>：</p>
+<ol>
+  <li><strong>入口</strong> — login.html</li>
+  <li><strong>工作台</strong> — index.html</li>
+  <li><strong>销售管理</strong> — 销售目标、线索、商机、销售业绩（4 页 + 2 详情）</li>
+  <li><strong>客户中心</strong> — 客户、政务、代账、地址、客户物品（5 列表 + 5 详情/编辑）</li>
+  <li><strong>知识库</strong> — knowledge-base.html</li>
+  <li><strong>合同订单</strong> — 合同管理、订单管理</li>
+  <li><strong>运营管理</strong> — 财务报销、经营报表、人事管理、薪资管理、员工管理</li>
+  <li><strong>系统管理</strong> — 角色权限、字典管理、菜单管理</li>
+</ol>
+
+<h2>三、各模块功能页面清单</h2>
+
+<h3>0. 入口</h3>
+<table>
+  <thead><tr><th>页面文件</th><th>页面名称</th><th>核心功能</th></tr></thead>
+  <tbody>
+    <tr><td>login.html</td><td>员工登录</td><td>工号密码登录，进入工作台</td></tr>
+  </tbody>
+</table>
+
+<h3>1. 工作台</h3>
+<table>
+  <thead><tr><th>页面文件</th><th>页面名称</th><th>核心功能</th></tr></thead>
+  <tbody>
+    <tr><td>index.html</td><td>工作台</td><td>快捷入口（录线索、跟进、发起合同、客户维护）；数据概览；工作简报 10 项；业务速览；待办；知识库摘要；月度业绩排行；内嵌弹窗</td></tr>
+  </tbody>
+</table>
+
+<h3>2. 销售管理</h3>
+<table>
+  <thead><tr><th>页面文件</th><th>页面名称</th><th>核心功能</th></tr></thead>
+  <tbody>
+    <tr><td>sales-target.html</td><td>销售目标</td><td>部门/人员目标；批量/单行设置；导入导出</td></tr>
+    <tr><td>lead-management.html</td><td>线索管理</td><td>线索列表与状态 Tab；新增/移交/导入；跟进、报价、转商机</td></tr>
+    <tr><td>lead-follow-detail.html</td><td>跟进日志详情</td><td>跟进时间轴、线索信息、上一条/下一条</td></tr>
+    <tr><td>opportunity-management.html</td><td>商机管理</td><td>商机列表；补充客户信息、添加跟进、新增合同</td></tr>
+    <tr><td>opportunity-detail.html</td><td>商机详情</td><td>跟进说明时间轴、内嵌添加跟进</td></tr>
+    <tr><td>sales-performance.html</td><td>销售业绩</td><td>个人/部门排名；业绩明细；多维度排行</td></tr>
+  </tbody>
+</table>
+
+<h3>3. 客户中心</h3>
+<table>
+  <thead><tr><th>页面文件</th><th>页面名称</th><th>核心功能</th></tr></thead>
+  <tbody>
+    <tr><td>customer-management.html</td><td>客户管理</td><td>客户列表；查看详情、编辑、新增合同</td></tr>
+    <tr><td>customer-detail.html</td><td>客户详情</td><td>服务详情/档案/维护记录/销售跟进 Tab</td></tr>
+    <tr><td>customer-edit.html</td><td>编辑客户信息</td><td>工商与档案信息编辑</td></tr>
+    <tr><td>customer-items.html</td><td>客户物品</td><td>物品台账；移交客户、内部移交</td></tr>
+    <tr><td>government-affairs.html</td><td>政务服务</td><td>政务工单；新增、派单、更新进度、移交</td></tr>
+    <tr><td>government-affairs-detail.html</td><td>政务工单详情</td><td>工单详情、进度时间轴、附件</td></tr>
+    <tr><td>accounting-customer-management.html</td><td>代账服务列表</td><td>代账客户；新增、派单、进度、移交</td></tr>
+    <tr><td>accounting-customer-detail.html</td><td>代账服务详情</td><td>流程步骤、工商、办理进度、附件</td></tr>
+    <tr><td>address-management.html</td><td>地址管理</td><td>注册地址资源；增删改</td></tr>
+    <tr><td>address-room-detail.html</td><td>地址详情</td><td>房间列表；增删改</td></tr>
+  </tbody>
+</table>
+
+<div class="page-break"></div>
+
+<h3>4. 知识库</h3>
+<table>
+  <thead><tr><th>页面文件</th><th>页面名称</th><th>核心功能</th></tr></thead>
+  <tbody>
+    <tr><td>knowledge-base.html</td><td>知识库</td><td>文档树、上传、搜索；问答大厅</td></tr>
+  </tbody>
+</table>
+
+<h3>5. 合同订单</h3>
+<table>
+  <thead><tr><th>页面文件</th><th>页面名称</th><th>核心功能</th></tr></thead>
+  <tbody>
+    <tr><td>contract-management.html</td><td>合同管理</td><td>合同列表；按业务类型 Tab；创建合同</td></tr>
+    <tr><td>order-management.html</td><td>订单管理</td><td>订单详情；开票申请/查看；收款码、备注</td></tr>
+  </tbody>
+</table>
+
+<h3>6. 运营管理</h3>
+<table>
+  <thead><tr><th>页面文件</th><th>页面名称</th><th>核心功能</th></tr></thead>
+  <tbody>
+    <tr><td>payment-request.html</td><td>财务报销</td><td>我提交/待我处理/已处理/抄送；申请、审批、支付</td></tr>
+    <tr><td>financial-reports.html</td><td>经营报表</td><td>收入与利润、收入月度；图表+表格</td></tr>
+    <tr><td>hr-request.html</td><td>人事管理</td><td>招聘/转正/调岗/离职；审批流</td></tr>
+    <tr><td>salary-management.html</td><td>薪资管理</td><td>薪酬宽表；批量发送、员工确认</td></tr>
+    <tr><td>department-employees.html</td><td>员工管理</td><td>部门树；在职/待转正/离职</td></tr>
+    <tr><td>employee-profile.html</td><td>员工档案</td><td>档案只读视图</td></tr>
+    <tr><td>employee-edit.html</td><td>员工信息编辑</td><td>员工信息编辑</td></tr>
+  </tbody>
+</table>
+
+<h3>7. 系统管理</h3>
+<table>
+  <thead><tr><th>页面文件</th><th>页面名称</th><th>核心功能</th></tr></thead>
+  <tbody>
+    <tr><td>role-permissions.html</td><td>角色权限</td><td>角色/员工权限；按模块勾选</td></tr>
+    <tr><td>dictionary-management.html</td><td>字典管理</td><td>字典分类；增删改</td></tr>
+    <tr><td>menu-management.html</td><td>菜单管理</td><td>菜单树配置、排序、启用</td></tr>
+  </tbody>
+</table>
+
+<h2>四、页面关联关系</h2>
+
+<h3>4.1 主干导航与详情归属</h3>
+<p>业务页共享侧栏 IA；详情页通过 DETAIL_PARENT 在侧栏高亮列表页：</p>
+<table>
+  <thead><tr><th>详情页</th><th>侧栏高亮父页</th></tr></thead>
+  <tbody>
+    <tr><td>customer-detail / customer-edit</td><td>customer-management</td></tr>
+    <tr><td>lead-follow-detail</td><td>lead-management</td></tr>
+    <tr><td>opportunity-detail</td><td>opportunity-management</td></tr>
+    <tr><td>government-affairs-detail</td><td>government-affairs</td></tr>
+    <tr><td>accounting-customer-detail</td><td>accounting-customer-management</td></tr>
+    <tr><td>address-room-detail</td><td>address-management</td></tr>
+    <tr><td>employee-profile / employee-edit</td><td>department-employees</td></tr>
+  </tbody>
+</table>
+
+<h3>4.2 列表 → 详情（URL 参数）</h3>
+<table>
+  <thead><tr><th>列表页</th><th>详情页</th><th>参数</th></tr></thead>
+  <tbody>
+    <tr><td>customer-management</td><td>customer-detail / customer-edit</td><td>?id=cust-n</td></tr>
+    <tr><td>lead-management</td><td>lead-follow-detail</td><td>?id=lead-n</td></tr>
+    <tr><td>opportunity-management</td><td>opportunity-detail</td><td>?id=opp-n</td></tr>
+    <tr><td>government-affairs</td><td>government-affairs-detail</td><td>?id=gov-n</td></tr>
+    <tr><td>accounting-customer-management</td><td>accounting-customer-detail</td><td>?id=acc-n</td></tr>
+    <tr><td>address-management</td><td>address-room-detail</td><td>无 query</td></tr>
+    <tr><td>department-employees</td><td>employee-profile / employee-edit</td><td>?name=</td></tr>
+  </tbody>
+</table>
+
+<h3>4.3 销售漏斗链路</h3>
+<div class="flow">工作台录线索 → 线索管理 → [转商机] → 商机管理 → 商机详情
+                                    ↓
+                              创建合同 → 合同管理 → 订单管理
+销售目标、销售业绩 ← 考核与排行 ← 工作台工作简报/月度排行</div>
+<ul>
+  <li>线索 → 商机：lead-management「转商机」</li>
+  <li>商机/客户 → 合同：共用 create-contract-modal.js</li>
+  <li>合同 → 订单：order-management 可回链 contract-management#合同号</li>
+</ul>
+
+<h3>4.4 客户中心服务链</h3>
+<div class="flow">客户管理（主数据）
+  ├─ 客户详情 / 编辑信息
+  ├─ 客户物品
+  ├─ 政务服务 → 工单详情
+  ├─ 代账服务 → 代账详情
+  └─ 地址管理 → 地址详情（房间）</div>
+
+<h3>4.5 工作台枢纽</h3>
+<table>
+  <thead><tr><th>能力</th><th>关联</th></tr></thead>
+  <tbody>
+    <tr><td>快捷入口</td><td>销售/客户模块弹窗或跳转</td></tr>
+    <tr><td>工作简报</td><td>各业务域指标</td></tr>
+    <tr><td>月度业绩排行</td><td>sales-performance.html</td></tr>
+    <tr><td>知识库摘要</td><td>knowledge-base.html</td></tr>
+  </tbody>
+</table>
+
+<h3>4.6 典型业务闭环</h3>
+<p><strong>成单闭环：</strong>线索/商机 → 创建合同 → 订单 → 收款/开票 → 代账/政务履约 → 工作台 KPI/排行</p>
+<p><strong>续费闭环：</strong>客户详情 ↔ 代账/政务 ↔ 工作台待办（代账到期、续费跟进）</p>
+
+<h2>五、补充说明</h2>
+<ol>
+  <li>原型为静态 HTML + 前端演示脚本；?id= 用于演示详情切换。</li>
+  <li>审批中心、独立开票管理页已删除；开票在 order-management，报销在 payment-request。</li>
+  <li>customer-management = 客户管理；contract-management = 合同管理。</li>
+  <li>权限与菜单：role-permissions + menu-management + menu-data.js。</li>
+</ol>
+
+<p class="footer">企税康协同工作平台 · 产品全局归纳 · 2026-05-26</p>
+</body>
+</html>
