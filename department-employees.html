@@ -305,7 +305,7 @@
                     <td class="px-3 py-3 border-b border-slate-100 whitespace-nowrap">
                       <button type="button" class="text-blue-600 hover:underline js-copy-link">补充信息</button>
                       <span class="text-slate-300 mx-1">|</span>
-                      <button type="button" class="text-blue-600 hover:underline js-open-ban" data-name="许恒星">封禁</button>
+                      <span class="text-slate-400">--</span>
                     </td>
                   </tr>
                   <tr class="hover:bg-slate-50">
@@ -321,7 +321,7 @@
                     <td class="px-3 py-3 border-b border-slate-100 whitespace-nowrap">
                       <button type="button" class="text-blue-600 hover:underline js-copy-link">补充信息</button>
                       <span class="text-slate-300 mx-1">|</span>
-                      <button type="button" class="text-blue-600 hover:underline js-open-ban" data-name="郑亮">封禁</button>
+                      <button type="button" class="text-blue-600 hover:underline js-open-renew" data-name="郑亮">续签</button>
                     </td>
                   </tr>
                   <tr class="hover:bg-slate-50">
@@ -337,7 +337,7 @@
                     <td class="px-3 py-3 border-b border-slate-100 whitespace-nowrap">
                       <button type="button" class="text-blue-600 hover:underline js-copy-link">补充信息</button>
                       <span class="text-slate-300 mx-1">|</span>
-                      <button type="button" class="text-blue-600 hover:underline js-open-ban" data-name="曹媛">封禁</button>
+                      <span class="text-slate-400">--</span>
                     </td>
                   </tr>
                 </tbody>
@@ -374,7 +374,7 @@
                     <td class="px-3 py-3 border-b border-slate-100 whitespace-nowrap">
                       <button type="button" class="text-blue-600 hover:underline js-copy-link">补充信息</button>
                       <span class="text-slate-300 mx-1">|</span>
-                      <button type="button" class="text-blue-600 hover:underline js-open-ban" data-name="王浩">封禁</button>
+                      <button type="button" class="text-blue-600 hover:underline js-open-regular" data-name="王浩">转正</button>
                     </td>
                   </tr>
                 </tbody>
@@ -406,7 +406,7 @@
                     <td class="px-3 py-3 border-b border-slate-100">137****3344</td>
                     <td class="px-3 py-3 border-b border-slate-100">是</td>
                     <td class="px-3 py-3 border-b border-slate-100">2026-03-15</td>
-                    <td class="px-3 py-3 border-b border-slate-100"><button type="button" class="text-blue-600 hover:underline">解封</button></td>
+                    <td class="px-3 py-3 border-b border-slate-100 text-slate-400">--</td>
                   </tr>
                 </tbody>
               </table>
@@ -605,6 +605,29 @@
         banModal.setAttribute('aria-hidden', 'true');
       }
       banModal.querySelectorAll('[data-close-ban]').forEach(function (el) { el.addEventListener('click', closeBan); });
+      document.getElementById('btn-ban-confirm').addEventListener('click', closeBan);
+
+      var toast = document.getElementById('toast-copy');
+      var toastTimer;
+      function showToast(msg) {
+        toast.textContent = msg;
+        toast.classList.remove('hidden');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(function () {
+          toast.classList.add('hidden');
+          toast.textContent = '链接已复制';
+        }, 2000);
+      }
+      document.querySelectorAll('.js-open-renew').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          showToast('已提交续签（' + (btn.getAttribute('data-name') || '') + '）');
+        });
+      });
+      document.querySelectorAll('.js-open-regular').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          showToast('已提交转正（' + (btn.getAttribute('data-name') || '') + '）');
+        });
+      });
       document.querySelectorAll('.js-open-ban').forEach(function (btn) {
         btn.addEventListener('click', function () {
           banNameEl.textContent = btn.getAttribute('data-name') || '';
@@ -613,18 +636,13 @@
           banModal.setAttribute('aria-hidden', 'false');
         });
       });
-      document.getElementById('btn-ban-confirm').addEventListener('click', closeBan);
 
-      var toast = document.getElementById('toast-copy');
-      var toastTimer;
       document.querySelectorAll('.js-copy-link').forEach(function (btn) {
         btn.addEventListener('click', function () {
           if (navigator.clipboard && navigator.clipboard.writeText) {
             navigator.clipboard.writeText(window.location.origin + window.location.pathname + '#supplement').catch(function () {});
           }
-          toast.classList.remove('hidden');
-          clearTimeout(toastTimer);
-          toastTimer = setTimeout(function () { toast.classList.add('hidden'); }, 2000);
+          showToast('链接已复制');
         });
       });
 
