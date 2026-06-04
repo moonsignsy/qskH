@@ -17,15 +17,168 @@
     .acc-tab-active { border-bottom-color: #2563eb; color: #2563eb; font-weight: 600; }
     #modal-add-accounting:not(.hidden),
     #modal-dispatch-accounting:not(.hidden),
-    #modal-first-call:not(.hidden),
-    #modal-progress-accounting:not(.hidden),
+    #modal-add-maintain:not(.hidden),
     #modal-transfer-accounting:not(.hidden) { display: flex; }
     .deadline-badge { display: inline-block; padding: 0.125rem 0.5rem; font-size: 0.8125rem; line-height: 1.25rem; border-radius: 0.25rem; white-space: nowrap; }
     .deadline-normal { background: #dcfce7; color: #166534; }
     .deadline-warning { background: #ffedd5; color: #c2410c; }
     .deadline-overdue { background: #fee2e2; color: #dc2626; }
-    .acc-filter-panel { background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%); }
-    .acc-filter-input:focus { border-color: #3b82f6; outline: none; box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.15); }
+    .acc-filter-panel {
+      background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+    }
+    .acc-filter-hd {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.625rem;
+    }
+    .acc-filter-hd-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 1.625rem;
+      height: 1.625rem;
+      border-radius: 0.375rem;
+      background: #2563eb;
+      color: #fff;
+      font-size: 0.625rem;
+      flex-shrink: 0;
+    }
+    .acc-filter-body {
+      display: flex;
+      flex-direction: column;
+      gap: 0.625rem;
+    }
+    .acc-filter-row-1 {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 0.625rem;
+      align-items: end;
+    }
+    .acc-filter-row-2 {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0.625rem;
+      align-items: end;
+    }
+    .acc-filter-field { min-width: 0; }
+    .acc-filter-label {
+      display: block;
+      font-size: 0.6875rem;
+      line-height: 1rem;
+      color: #64748b;
+      margin-bottom: 0.1875rem;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+    .acc-filter-control { position: relative; }
+    .acc-filter-control select { appearance: none; padding-right: 1.625rem; cursor: pointer; }
+    .acc-filter-control .acc-filter-chevron {
+      pointer-events: none;
+      position: absolute;
+      right: 0.5rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 0.5625rem;
+      color: #94a3b8;
+    }
+    .acc-filter-input {
+      height: 2rem;
+      width: 100%;
+      border-radius: 0.375rem;
+      border: 1px solid #e2e8f0;
+      background: #fff;
+      padding: 0 0.5rem;
+      font-size: 0.8125rem;
+      color: #334155;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+    .acc-filter-input::placeholder { color: #94a3b8; }
+    .acc-filter-input:hover:not(:focus) { border-color: #cbd5e1; }
+    .acc-filter-input:focus {
+      border-color: #3b82f6;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
+    }
+    .acc-filter-time-inline {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.375rem;
+    }
+    .acc-filter-time-inline .acc-filter-control { flex: 1 1 100%; min-width: 0; }
+    .acc-filter-time-custom {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      flex: 1 1 100%;
+      min-width: 0;
+    }
+    .acc-filter-time-custom .acc-filter-input {
+      flex: 1 1 0;
+      min-width: 0;
+      padding: 0 0.375rem;
+      font-size: 0.75rem;
+    }
+    .acc-filter-actions-cell {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      min-width: 0;
+    }
+    .acc-filter-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 0.375rem;
+      min-width: 0;
+    }
+    .acc-filter-actions-divider {
+      width: 1px;
+      height: 1rem;
+      background: #e2e8f0;
+      margin: 0 0.125rem;
+      flex-shrink: 0;
+    }
+    .acc-filter-btn {
+      height: 2rem;
+      padding: 0 0.75rem;
+      border-radius: 0.375rem;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      white-space: nowrap;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3125rem;
+      transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+    }
+    .acc-filter-btn-primary {
+      background: #2563eb;
+      color: #fff;
+      border: 1px solid #2563eb;
+    }
+    .acc-filter-btn-primary:hover { background: #1d4ed8; border-color: #1d4ed8; }
+    .acc-filter-btn-primary:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.25); }
+    .acc-filter-btn-ghost {
+      background: #fff;
+      color: #475569;
+      border: 1px solid #e2e8f0;
+    }
+    .acc-filter-btn-ghost:hover { background: #f8fafc; border-color: #cbd5e1; }
+    .acc-filter-btn-ghost:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(148, 163, 184, 0.2); }
+    @media (max-width: 1023px) {
+      .acc-filter-row-1 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+      .acc-filter-row-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .acc-filter-actions-cell { grid-column: 1 / -1; }
+    }
+    @media (max-width: 639px) {
+      .acc-filter-row-1,
+      .acc-filter-row-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
     .first-call-field {
       border: 1px solid #e2e8f0;
       border-radius: 0.75rem;
@@ -168,80 +321,153 @@
 
       <section class="p-4 sm:p-6">
         <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm">
-          <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
-            <div>
-              <p class="text-sm text-slate-500">客户中心 / 代账服务</p>
-              <h2 class="text-lg font-semibold text-slate-800 mt-0.5">代账服务</h2>
-            </div>
-            <div class="flex flex-wrap items-center gap-2">
-              <button type="button" id="btn-open-add-accounting" class="h-9 px-4 rounded-md bg-blue-600 text-white text-sm hover:bg-blue-700 cursor-pointer inline-flex items-center gap-1.5"><i class="fa-solid fa-plus text-xs"></i>新增代账服务</button>
-              <button type="button" id="btn-open-transfer-accounting" class="h-9 px-4 rounded-md border border-slate-200 bg-white text-sm text-slate-600 hover:bg-slate-50 cursor-pointer inline-flex items-center gap-1.5"><i class="fa-solid fa-right-left text-xs text-slate-400"></i>移交</button>
-            </div>
+          <div class="mb-4">
+            <p class="text-sm text-slate-500">客户中心 / 代账服务</p>
+            <h2 class="text-lg font-semibold text-slate-800 mt-0.5">代账服务</h2>
           </div>
 
-          <form class="acc-filter-panel rounded-lg border border-slate-200 p-4 mb-5" id="acc-search-form" onsubmit="return false">
-            <div class="flex items-center gap-2 mb-3 pb-3 border-b border-slate-200/70">
-              <span class="inline-flex h-7 w-7 items-center justify-center rounded-md bg-blue-600 text-white text-xs"><i class="fa-solid fa-filter"></i></span>
-              <span class="text-sm font-medium text-slate-700">筛选条件</span>
+          <form class="acc-filter-panel rounded-xl p-4 mb-5" id="acc-search-form" onsubmit="return false">
+            <div class="acc-filter-hd">
+              <span class="acc-filter-hd-icon"><i class="fa-solid fa-filter"></i></span>
+              <span class="text-sm font-semibold text-slate-800">筛选条件</span>
             </div>
-            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 items-end">
-              <label class="text-xs text-slate-500 sm:col-span-2 lg:col-span-1">企业名称
-                <input type="text" class="acc-filter-input mt-1 h-9 w-full rounded-md border border-slate-200 bg-white px-3 text-sm text-slate-700 placeholder:text-slate-400" placeholder="请输入企业名称">
-              </label>
-              <label class="text-xs text-slate-500">销售顾问
-                <select class="acc-filter-input mt-1 h-9 w-full rounded-md border border-slate-200 bg-white px-3 text-sm text-slate-600 cursor-pointer">
-                  <option value="">全部</option>
-                  <option>周芳林</option>
-                  <option>周方林</option>
-                </select>
-              </label>
-              <label class="text-xs text-slate-500">业务部门
-                <select class="acc-filter-input mt-1 h-9 w-full rounded-md border border-slate-200 bg-white px-3 text-sm text-slate-600 cursor-pointer">
-                  <option value="">全部</option>
-                  <option>网销一组</option>
-                  <option>常熟组</option>
-                </select>
-              </label>
-              <label class="text-xs text-slate-500">服务部门
-                <select class="acc-filter-input mt-1 h-9 w-full rounded-md border border-slate-200 bg-white px-3 text-sm text-slate-600 cursor-pointer">
-                  <option value="">全部</option>
-                  <option>顾问二组</option>
-                  <option>顾问一组</option>
-                </select>
-              </label>
-              <label class="text-xs text-slate-500">主办会计
-                <select class="acc-filter-input mt-1 h-9 w-full rounded-md border border-slate-200 bg-white px-3 text-sm text-slate-600 cursor-pointer">
-                  <option value="">全部</option>
-                  <option>马时笑</option>
-                  <option>许悦</option>
-                </select>
-              </label>
-              <label class="text-xs text-slate-500">开票员
-                <select class="acc-filter-input mt-1 h-9 w-full rounded-md border border-slate-200 bg-white px-3 text-sm text-slate-600 cursor-pointer">
-                  <option value="">全部</option>
-                  <option>马时笑</option>
-                  <option>许悦</option>
-                </select>
-              </label>
-              <label class="text-xs text-slate-500">财税顾问
-                <select class="acc-filter-input mt-1 h-9 w-full rounded-md border border-slate-200 bg-white px-3 text-sm text-slate-600 cursor-pointer">
-                  <option value="">全部</option>
-                  <option>马时笑</option>
-                  <option>许悦</option>
-                </select>
-              </label>
-              <label class="text-xs text-slate-500">收费截止月份
-                <select id="filter-deadline-month" class="acc-filter-input mt-1 h-9 w-full rounded-md border border-slate-200 bg-white px-3 text-sm text-slate-600 cursor-pointer">
-                  <option value="">全部</option>
-                  <option value="normal">正常</option>
-                  <option value="warning">临期</option>
-                  <option value="overdue">超期</option>
-                </select>
-              </label>
-            </div>
-            <div class="mt-3 pt-3 border-t border-slate-200/70 flex flex-wrap items-center justify-end gap-2">
-              <button type="reset" class="h-9 px-4 rounded-md border border-slate-200 bg-white text-sm text-slate-600 hover:bg-slate-50 cursor-pointer">重置</button>
-              <button type="submit" class="h-9 px-5 rounded-md bg-blue-600 text-white text-sm hover:bg-blue-700 cursor-pointer inline-flex items-center gap-1.5"><i class="fa-solid fa-magnifying-glass text-xs"></i>查询</button>
+
+            <div class="acc-filter-body">
+              <div class="acc-filter-row-1">
+                <label class="acc-filter-field">
+                  <span class="acc-filter-label">企业名称</span>
+                  <input type="text" class="acc-filter-input" placeholder="请输入企业名称">
+                </label>
+                <label class="acc-filter-field">
+                  <span class="acc-filter-label">销售顾问</span>
+                  <div class="acc-filter-control">
+                    <select class="acc-filter-input">
+                      <option value="">全部</option>
+                      <option>周芳林</option>
+                      <option>周方林</option>
+                    </select>
+                    <i class="fa-solid fa-angle-down acc-filter-chevron"></i>
+                  </div>
+                </label>
+                <label class="acc-filter-field">
+                  <span class="acc-filter-label">业务部门</span>
+                  <div class="acc-filter-control">
+                    <select class="acc-filter-input">
+                      <option value="">全部</option>
+                      <option>网销一组</option>
+                      <option>常熟组</option>
+                    </select>
+                    <i class="fa-solid fa-angle-down acc-filter-chevron"></i>
+                  </div>
+                </label>
+                <label class="acc-filter-field">
+                  <span class="acc-filter-label">服务部门</span>
+                  <div class="acc-filter-control">
+                    <select class="acc-filter-input">
+                      <option value="">全部</option>
+                      <option>顾问二组</option>
+                      <option>顾问一组</option>
+                    </select>
+                    <i class="fa-solid fa-angle-down acc-filter-chevron"></i>
+                  </div>
+                </label>
+                <label class="acc-filter-field">
+                  <span class="acc-filter-label">主办会计</span>
+                  <div class="acc-filter-control">
+                    <select class="acc-filter-input">
+                      <option value="">全部</option>
+                      <option>马时笑</option>
+                      <option>许悦</option>
+                    </select>
+                    <i class="fa-solid fa-angle-down acc-filter-chevron"></i>
+                  </div>
+                </label>
+                <label class="acc-filter-field">
+                  <span class="acc-filter-label">开票员</span>
+                  <div class="acc-filter-control">
+                    <select class="acc-filter-input">
+                      <option value="">全部</option>
+                      <option>马时笑</option>
+                      <option>许悦</option>
+                    </select>
+                    <i class="fa-solid fa-angle-down acc-filter-chevron"></i>
+                  </div>
+                </label>
+                <label class="acc-filter-field">
+                  <span class="acc-filter-label">财税顾问</span>
+                  <div class="acc-filter-control">
+                    <select class="acc-filter-input">
+                      <option value="">全部</option>
+                      <option>马时笑</option>
+                      <option>许悦</option>
+                    </select>
+                    <i class="fa-solid fa-angle-down acc-filter-chevron"></i>
+                  </div>
+                </label>
+              </div>
+
+              <div class="acc-filter-row-2">
+                <label class="acc-filter-field">
+                  <span class="acc-filter-label">累计服务月份</span>
+                  <div class="acc-filter-control">
+                    <select id="filter-service-months" class="acc-filter-input">
+                      <option value="">全部</option>
+                      <option value="under-1">小于一年</option>
+                      <option value="1-3">一年~三年</option>
+                      <option value="over-3">三年以上</option>
+                    </select>
+                    <i class="fa-solid fa-angle-down acc-filter-chevron"></i>
+                  </div>
+                </label>
+                <label class="acc-filter-field">
+                  <span class="acc-filter-label">合同结束日期</span>
+                  <div class="acc-filter-time-inline">
+                    <div class="acc-filter-control">
+                      <select class="acc-time-preset acc-filter-input">
+                        <option value="week">本周</option>
+                        <option value="month" selected>本月</option>
+                        <option value="last-month">上月</option>
+                        <option value="custom">自定义</option>
+                      </select>
+                      <i class="fa-solid fa-angle-down acc-filter-chevron"></i>
+                    </div>
+                    <div class="acc-time-custom acc-filter-time-custom hidden">
+                      <input type="date" class="acc-filter-input">
+                      <span class="text-slate-400 shrink-0 text-xs">至</span>
+                      <input type="date" class="acc-filter-input">
+                    </div>
+                  </div>
+                </label>
+                <label class="acc-filter-field">
+                  <span class="acc-filter-label">收费截止月份</span>
+                  <div class="acc-filter-time-inline">
+                    <div class="acc-filter-control">
+                      <select class="acc-time-preset acc-filter-input">
+                        <option value="week">本周</option>
+                        <option value="month" selected>本月</option>
+                        <option value="last-month">上月</option>
+                        <option value="custom">自定义</option>
+                      </select>
+                      <i class="fa-solid fa-angle-down acc-filter-chevron"></i>
+                    </div>
+                    <div class="acc-time-custom acc-filter-time-custom hidden">
+                      <input type="date" class="acc-filter-input">
+                      <span class="text-slate-400 shrink-0 text-xs">至</span>
+                      <input type="date" class="acc-filter-input">
+                    </div>
+                  </div>
+                </label>
+                <div class="acc-filter-actions-cell">
+                  <span class="acc-filter-label opacity-0 pointer-events-none select-none" aria-hidden="true">&nbsp;</span>
+                  <div class="acc-filter-actions">
+                    <button type="submit" class="acc-filter-btn acc-filter-btn-primary"><i class="fa-solid fa-magnifying-glass text-xs"></i>查询</button>
+                    <button type="reset" class="acc-filter-btn acc-filter-btn-ghost">重置</button>
+                    <span class="acc-filter-actions-divider" aria-hidden="true"></span>
+                    <button type="button" id="btn-open-add-accounting" class="acc-filter-btn acc-filter-btn-primary"><i class="fa-solid fa-plus text-xs"></i>新增代账服务</button>
+                    <button type="button" id="btn-open-transfer-accounting" class="acc-filter-btn acc-filter-btn-ghost"><i class="fa-solid fa-right-left text-xs text-slate-400"></i>移交</button>
+                  </div>
+                </div>
+              </div>
             </div>
           </form>
 
@@ -262,6 +488,7 @@
                   <th class="text-left px-3 py-3 border-b border-slate-200 font-medium whitespace-nowrap">记账开始月份</th>
                   <th class="text-left px-3 py-3 border-b border-slate-200 font-medium whitespace-nowrap">收费截止月份</th>
                   <th class="text-left px-3 py-3 border-b border-slate-200 font-medium whitespace-nowrap">合同结束日期</th>
+                  <th class="text-left px-3 py-3 border-b border-slate-200 font-medium whitespace-nowrap">累计服务月份</th>
                   <th class="text-left px-3 py-3 border-b border-slate-200 font-medium whitespace-nowrap">财税顾问</th>
                   <th class="text-left px-3 py-3 border-b border-slate-200 font-medium whitespace-nowrap">主办会计</th>
                   <th class="text-left px-3 py-3 border-b border-slate-200 font-medium whitespace-nowrap">开票员</th>
@@ -273,14 +500,15 @@
                 </tr>
               </thead>
               <tbody class="text-slate-700">
-                <tr class="hover:bg-slate-50 acc-row" data-deadline="normal" data-tax="general" data-id="acc-1" data-company="苏州美的信息科技有限公司" data-contract="20260415002" data-dept="网销一组" data-service-dept="" data-sales="周方林" data-fee="333/月" data-chief="" data-adviser="" data-invoice="">
+                <tr class="hover:bg-slate-50 acc-row" data-deadline="normal" data-contract-end-level="normal" data-tax="general" data-id="acc-1" data-company="苏州美的信息科技有限公司" data-contract="20260415002" data-dept="网销一组" data-service-dept="" data-sales="周方林" data-fee="333/月" data-chief="" data-adviser="" data-invoice="" data-account-start="2026-06">
                   <td class="px-3 py-3 border-b border-slate-100">苏州美的信息科技有限公司</td>
                   <td class="px-3 py-3 border-b border-slate-100">4000</td>
                   <td class="px-3 py-3 border-b border-slate-100">年付</td>
                   <td class="px-3 py-3 border-b border-slate-100">333</td>
-                  <td class="px-3 py-3 border-b border-slate-100">2026-06</td>
+                  <td class="px-3 py-3 border-b border-slate-100">2026年6月</td>
                   <td class="px-3 py-3 border-b border-slate-100"><span class="deadline-badge deadline-normal">2027年6月</span></td>
-                  <td class="px-3 py-3 border-b border-slate-100">2028-03-21</td>
+                  <td class="px-3 py-3 border-b border-slate-100"><span class="deadline-badge deadline-normal">2028年3月</span></td>
+                  <td class="px-3 py-3 border-b border-slate-100">8个月</td>
                   <td class="px-3 py-3 border-b border-slate-100 text-slate-400">—</td>
                   <td class="px-3 py-3 border-b border-slate-100 text-slate-400">—</td>
                   <td class="px-3 py-3 border-b border-slate-100 text-slate-400">—</td>
@@ -290,14 +518,15 @@
                   <td class="px-3 py-3 border-b border-slate-100"><a class="text-blue-600 hover:underline" href="accounting-customer-detail.html?id=acc-1">查看详情</a></td>
                   <td class="px-3 py-3 border-b border-slate-100"><button type="button" class="text-blue-600 hover:underline js-dispatch">派单</button></td>
                 </tr>
-                <tr class="hover:bg-slate-50 acc-row" data-deadline="normal" data-tax="general" data-id="acc-2" data-company="苏州维的科技有限公司" data-contract="20260415002" data-dept="网销一组" data-service-dept="" data-sales="周方林" data-fee="292/月" data-chief="" data-adviser="" data-invoice="">
+                <tr class="hover:bg-slate-50 acc-row" data-deadline="normal" data-contract-end-level="normal" data-tax="general" data-id="acc-2" data-company="苏州维的科技有限公司" data-contract="20260415002" data-dept="网销一组" data-service-dept="" data-sales="周方林" data-fee="292/月" data-chief="" data-adviser="" data-invoice="" data-account-start="2026-06">
                   <td class="px-3 py-3 border-b border-slate-100">苏州维的科技有限公司</td>
                   <td class="px-3 py-3 border-b border-slate-100">3500</td>
                   <td class="px-3 py-3 border-b border-slate-100">年付</td>
                   <td class="px-3 py-3 border-b border-slate-100">292</td>
-                  <td class="px-3 py-3 border-b border-slate-100">2026-06</td>
+                  <td class="px-3 py-3 border-b border-slate-100">2026年6月</td>
                   <td class="px-3 py-3 border-b border-slate-100"><span class="deadline-badge deadline-normal">2027年6月</span></td>
-                  <td class="px-3 py-3 border-b border-slate-100">2028-03-21</td>
+                  <td class="px-3 py-3 border-b border-slate-100"><span class="deadline-badge deadline-normal">2028年3月</span></td>
+                  <td class="px-3 py-3 border-b border-slate-100">1年2个月</td>
                   <td class="px-3 py-3 border-b border-slate-100 text-slate-400">—</td>
                   <td class="px-3 py-3 border-b border-slate-100 text-slate-400">—</td>
                   <td class="px-3 py-3 border-b border-slate-100 text-slate-400">—</td>
@@ -307,14 +536,15 @@
                   <td class="px-3 py-3 border-b border-slate-100"><a class="text-blue-600 hover:underline" href="accounting-customer-detail.html?id=acc-2">查看详情</a></td>
                   <td class="px-3 py-3 border-b border-slate-100"><button type="button" class="text-blue-600 hover:underline js-dispatch">派单</button></td>
                 </tr>
-                <tr class="hover:bg-slate-50 acc-row" data-deadline="warning" data-tax="small" data-id="acc-3" data-company="苏州维的科技有限公司" data-contract="20260415003" data-dept="常熟组" data-service-dept="顾问二组" data-sales="周方林" data-fee="117/月" data-chief="" data-adviser="" data-invoice="">
+                <tr class="hover:bg-slate-50 acc-row" data-deadline="warning" data-contract-end-level="warning" data-tax="small" data-id="acc-3" data-company="苏州维的科技有限公司" data-contract="20260415003" data-dept="常熟组" data-service-dept="顾问二组" data-sales="周方林" data-fee="117/月" data-chief="" data-adviser="" data-invoice="" data-account-start="2026-06">
                   <td class="px-3 py-3 border-b border-slate-100">苏州维的科技有限公司</td>
                   <td class="px-3 py-3 border-b border-slate-100">1400</td>
                   <td class="px-3 py-3 border-b border-slate-100">年付</td>
                   <td class="px-3 py-3 border-b border-slate-100">117</td>
-                  <td class="px-3 py-3 border-b border-slate-100">2026-06</td>
-                  <td class="px-3 py-3 border-b border-slate-100"><span class="deadline-badge deadline-warning">余2个月</span></td>
-                  <td class="px-3 py-3 border-b border-slate-100">2028-03-21</td>
+                  <td class="px-3 py-3 border-b border-slate-100">2026年6月</td>
+                  <td class="px-3 py-3 border-b border-slate-100"><span class="deadline-badge deadline-warning">2026年7月</span></td>
+                  <td class="px-3 py-3 border-b border-slate-100"><span class="deadline-badge deadline-warning">2026年7月</span></td>
+                  <td class="px-3 py-3 border-b border-slate-100">11个月</td>
                   <td class="px-3 py-3 border-b border-slate-100 text-slate-400">—</td>
                   <td class="px-3 py-3 border-b border-slate-100 text-slate-400">—</td>
                   <td class="px-3 py-3 border-b border-slate-100 text-slate-400">—</td>
@@ -322,16 +552,17 @@
                   <td class="px-3 py-3 border-b border-slate-100">周方林</td>
                   <td class="px-3 py-3 border-b border-slate-100">常熟组</td>
                   <td class="px-3 py-3 border-b border-slate-100"><a class="text-blue-600 hover:underline" href="accounting-customer-detail.html?id=acc-3">查看详情</a></td>
-                  <td class="px-3 py-3 border-b border-slate-100"><button type="button" class="text-blue-600 hover:underline js-first-call">首电确认</button></td>
+                  <td class="px-3 py-3 border-b border-slate-100"><button type="button" class="text-blue-600 hover:underline js-add-maintain">添加维护</button></td>
                 </tr>
-                <tr class="hover:bg-slate-50 acc-row" data-deadline="overdue" data-tax="general" data-id="acc-4" data-company="万州维的科技有限公司" data-contract="20260415004" data-dept="岚诺组" data-service-dept="" data-sales="周方林" data-fee="125/月" data-chief="" data-adviser="" data-invoice="">
+                <tr class="hover:bg-slate-50 acc-row" data-deadline="overdue" data-contract-end-level="overdue" data-tax="general" data-id="acc-4" data-company="万州维的科技有限公司" data-contract="20260415004" data-dept="岚诺组" data-service-dept="" data-sales="周方林" data-fee="125/月" data-chief="" data-adviser="" data-invoice="" data-account-start="2026-06">
                   <td class="px-3 py-3 border-b border-slate-100">万州维的科技有限公司</td>
                   <td class="px-3 py-3 border-b border-slate-100">1500</td>
                   <td class="px-3 py-3 border-b border-slate-100">年付</td>
                   <td class="px-3 py-3 border-b border-slate-100">125</td>
-                  <td class="px-3 py-3 border-b border-slate-100">2026-06</td>
-                  <td class="px-3 py-3 border-b border-slate-100"><span class="deadline-badge deadline-overdue">逾期1个月</span></td>
-                  <td class="px-3 py-3 border-b border-slate-100">2028-03-21</td>
+                  <td class="px-3 py-3 border-b border-slate-100">2026年6月</td>
+                  <td class="px-3 py-3 border-b border-slate-100"><span class="deadline-badge deadline-overdue">2026年4月</span></td>
+                  <td class="px-3 py-3 border-b border-slate-100"><span class="deadline-badge deadline-overdue">2026年5月</span></td>
+                  <td class="px-3 py-3 border-b border-slate-100">2年3个月</td>
                   <td class="px-3 py-3 border-b border-slate-100 text-slate-400">—</td>
                   <td class="px-3 py-3 border-b border-slate-100 text-slate-400">—</td>
                   <td class="px-3 py-3 border-b border-slate-100 text-slate-400">—</td>
@@ -339,16 +570,17 @@
                   <td class="px-3 py-3 border-b border-slate-100">周方林</td>
                   <td class="px-3 py-3 border-b border-slate-100">岚诺组</td>
                   <td class="px-3 py-3 border-b border-slate-100"><a class="text-blue-600 hover:underline" href="accounting-customer-detail.html?id=acc-4">查看详情</a></td>
-                  <td class="px-3 py-3 border-b border-slate-100"><button type="button" class="text-blue-600 hover:underline js-first-call">首电确认</button></td>
+                  <td class="px-3 py-3 border-b border-slate-100"><button type="button" class="text-blue-600 hover:underline js-add-maintain">添加维护</button></td>
                 </tr>
-                <tr class="hover:bg-slate-50 acc-row" data-deadline="warning" data-tax="general" data-id="acc-5" data-company="苏州维的科技有限公司" data-contract="20260415005" data-dept="网销一组" data-service-dept="顾问一组" data-sales="周方林" data-fee="325/月" data-chief="马时笑" data-adviser="马时笑" data-invoice="马时笑">
+                <tr class="hover:bg-slate-50 acc-row" data-deadline="warning" data-contract-end-level="normal" data-tax="general" data-id="acc-5" data-company="苏州维的科技有限公司" data-contract="20260415005" data-dept="网销一组" data-service-dept="顾问一组" data-sales="周方林" data-fee="325/月" data-chief="马时笑" data-adviser="马时笑" data-invoice="马时笑" data-account-start="2026-06">
                   <td class="px-3 py-3 border-b border-slate-100">苏州维的科技有限公司</td>
                   <td class="px-3 py-3 border-b border-slate-100">4000</td>
                   <td class="px-3 py-3 border-b border-slate-100">年付</td>
                   <td class="px-3 py-3 border-b border-slate-100">325</td>
-                  <td class="px-3 py-3 border-b border-slate-100">2026-06</td>
-                  <td class="px-3 py-3 border-b border-slate-100"><span class="deadline-badge deadline-warning">余3个月</span></td>
-                  <td class="px-3 py-3 border-b border-slate-100">2028-03-21</td>
+                  <td class="px-3 py-3 border-b border-slate-100">2026年6月</td>
+                  <td class="px-3 py-3 border-b border-slate-100"><span class="deadline-badge deadline-warning">2026年8月</span></td>
+                  <td class="px-3 py-3 border-b border-slate-100"><span class="deadline-badge deadline-normal">2028年3月</span></td>
+                  <td class="px-3 py-3 border-b border-slate-100">6个月</td>
                   <td class="px-3 py-3 border-b border-slate-100">马时笑</td>
                   <td class="px-3 py-3 border-b border-slate-100">马时笑</td>
                   <td class="px-3 py-3 border-b border-slate-100">马时笑</td>
@@ -357,17 +589,18 @@
                   <td class="px-3 py-3 border-b border-slate-100">网销一组</td>
                   <td class="px-3 py-3 border-b border-slate-100"><a class="text-blue-600 hover:underline" href="accounting-customer-detail.html?id=acc-5">查看详情</a></td>
                   <td class="px-3 py-3 border-b border-slate-100 whitespace-nowrap">
-                    <button type="button" class="text-blue-600 hover:underline js-progress">添加进度</button>
+                    <button type="button" class="text-blue-600 hover:underline js-add-maintain">添加维护</button>
                   </td>
                 </tr>
-                <tr class="hover:bg-slate-50 acc-row" data-deadline="warning" data-tax="small" data-id="acc-6" data-company="苏州维的科技有限公司" data-contract="20260415006" data-dept="常熟组" data-service-dept="顾问一组" data-sales="周方林" data-fee="117/月" data-chief="马时笑" data-adviser="马时笑" data-invoice="马时笑">
+                <tr class="hover:bg-slate-50 acc-row" data-deadline="warning" data-contract-end-level="warning" data-tax="small" data-id="acc-6" data-company="苏州维的科技有限公司" data-contract="20260415006" data-dept="常熟组" data-service-dept="顾问一组" data-sales="周方林" data-fee="117/月" data-chief="马时笑" data-adviser="马时笑" data-invoice="马时笑" data-account-start="2026-06">
                   <td class="px-3 py-3 border-b border-slate-100">苏州维的科技有限公司</td>
                   <td class="px-3 py-3 border-b border-slate-100">6500</td>
                   <td class="px-3 py-3 border-b border-slate-100">年付</td>
                   <td class="px-3 py-3 border-b border-slate-100">117</td>
-                  <td class="px-3 py-3 border-b border-slate-100">2026-06</td>
-                  <td class="px-3 py-3 border-b border-slate-100"><span class="deadline-badge deadline-warning">余1个月</span></td>
-                  <td class="px-3 py-3 border-b border-slate-100">2028-03-21</td>
+                  <td class="px-3 py-3 border-b border-slate-100">2026年6月</td>
+                  <td class="px-3 py-3 border-b border-slate-100"><span class="deadline-badge deadline-warning">2026年6月</span></td>
+                  <td class="px-3 py-3 border-b border-slate-100"><span class="deadline-badge deadline-warning">2026年8月</span></td>
+                  <td class="px-3 py-3 border-b border-slate-100">1年</td>
                   <td class="px-3 py-3 border-b border-slate-100">马时笑</td>
                   <td class="px-3 py-3 border-b border-slate-100">马时笑</td>
                   <td class="px-3 py-3 border-b border-slate-100">马时笑</td>
@@ -376,7 +609,7 @@
                   <td class="px-3 py-3 border-b border-slate-100">常熟组</td>
                   <td class="px-3 py-3 border-b border-slate-100"><a class="text-blue-600 hover:underline" href="accounting-customer-detail.html?id=acc-6">查看详情</a></td>
                   <td class="px-3 py-3 border-b border-slate-100 whitespace-nowrap">
-                    <button type="button" class="text-blue-600 hover:underline js-progress">添加进度</button>
+                    <button type="button" class="text-blue-600 hover:underline js-add-maintain">添加维护</button>
                   </td>
                 </tr>
               </tbody>
@@ -436,6 +669,10 @@
       <div class="px-6 py-5 text-sm space-y-4">
         <div class="grid grid-cols-2 gap-x-8 gap-y-3">
           <div class="col-span-2"><p class="text-xs text-slate-500 mb-1">企业名称</p><p id="dispatch-company" class="text-slate-800">—</p></div>
+          <div>
+            <label class="text-xs text-slate-500 mb-1 block">记账开始月份 <span class="text-red-500">*</span></label>
+            <input type="month" id="dispatch-account-start" class="h-9 w-full max-w-[220px] rounded border border-slate-200 px-3 bg-white text-slate-700">
+          </div>
           <div><label class="text-xs text-slate-500 mb-1 block">主办会计 <span class="text-red-500">*</span></label><select class="h-9 w-full max-w-[220px] rounded border border-slate-200 px-3 bg-white"><option>马时笑</option><option>许悦</option></select></div>
           <div><label class="text-xs text-slate-500 mb-1 block">财税顾问 <span class="text-red-500">*</span></label><select class="h-9 w-full max-w-[220px] rounded border border-slate-200 px-3 bg-white"><option>马时笑</option><option>许悦</option></select></div>
           <div><label class="text-xs text-slate-500 mb-1 block">开票员 <span class="text-red-500">*</span></label><select class="h-9 w-full max-w-[220px] rounded border border-slate-200 px-3 bg-white"><option>马时笑</option><option>许悦</option></select></div>
@@ -448,142 +685,47 @@
     </div>
   </div>
 
-  <!-- 首电确认弹窗 -->
-  <div id="modal-first-call" class="fixed inset-0 z-[130] hidden items-center justify-center bg-slate-900/45 p-4">
-    <div class="absolute inset-0" data-close-first-call></div>
-    <div class="relative w-full max-w-5xl rounded-xl border border-slate-200 bg-white shadow-xl">
-      <div class="relative border-b border-slate-200 px-5 py-4">
-        <h3 class="text-center text-base font-semibold text-slate-800">首电确认</h3>
-        <button type="button" class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 cursor-pointer" data-close-first-call><i class="fa-solid fa-xmark text-lg"></i></button>
+  <!-- 添加维护弹窗 -->
+  <div id="modal-add-maintain" class="hidden fixed inset-0 z-[130] items-center justify-center bg-slate-900/45 p-4" role="dialog" aria-modal="true" aria-labelledby="modal-add-maintain-title">
+    <div class="bg-white rounded-xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-hidden flex flex-col border border-slate-200">
+      <div class="relative flex items-center justify-center h-14 px-4 border-b border-slate-100 shrink-0">
+        <h2 id="modal-add-maintain-title" class="text-lg font-semibold text-slate-800">添加维护</h2>
+        <button type="button" id="btn-close-add-maintain" class="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-md text-slate-400 hover:text-slate-600 hover:bg-slate-100 flex items-center justify-center" aria-label="关闭">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
       </div>
-      <div class="px-6 py-5 text-sm space-y-4 max-h-[72vh] overflow-y-auto">
-        <div class="rounded-lg border border-slate-100 bg-slate-50/70 p-4">
-          <p class="text-sm font-medium text-slate-700 mb-3">企业基础信息</p>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-            <div class="first-call-field">
-              <label class="first-call-label">企业名称</label>
-              <input type="text" class="first-call-input" value="苏州企业税务服务科技有限公司">
-            </div>
-            <div class="first-call-field">
-              <label class="first-call-label">实际对接人姓名 <span class="text-red-500">*</span></label>
-              <select class="first-call-input">
-                <option value="">请输入实际对接人姓名</option>
-                <option>张三</option>
-                <option>李四</option>
-              </select>
-            </div>
-            <div class="first-call-field">
-              <label class="first-call-label">实际对接人电话 <span class="text-red-500">*</span></label>
-              <input type="text" class="first-call-input" placeholder="请输入实际对接人电话">
-            </div>
-            <div class="first-call-field">
-              <label class="first-call-label">所属区域</label>
-              <select class="first-call-input">
-                <option value="">请选择所属区域</option>
-                <option>苏州</option>
-                <option>昆山</option>
-              </select>
-            </div>
-            <div class="first-call-field">
-              <label class="first-call-label">有无社保 <span class="text-red-500">*</span></label>
-              <select class="first-call-input">
-                <option>有</option>
-                <option>无</option>
-              </select>
-            </div>
-            <div class="first-call-field">
-              <label class="first-call-label">成立日期</label>
-              <select class="first-call-input">
-                <option value="">请选择成立日期</option>
-              </select>
-            </div>
+      <form id="form-add-maintain" class="overflow-y-auto flex-1 px-6 py-5 space-y-4 text-sm">
+        <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+          <label class="w-full sm:w-28 shrink-0 text-slate-600 sm:text-right">维护类型 <span class="text-red-500">*</span></label>
+          <div class="flex-1 min-w-0 relative">
+            <select id="maintain-type" class="w-full h-9 pl-3 pr-9 rounded-md border border-slate-200 text-slate-800 bg-white appearance-none focus:outline-none focus:ring-2 focus:ring-blue-400/30 focus:border-blue-400">
+              <option value="">请选择维护类型</option>
+              <option>日常回访</option>
+              <option>续费提醒</option>
+              <option>政策解读</option>
+              <option>问题处理</option>
+              <option>其他</option>
+            </select>
+            <i class="fa-solid fa-angle-down pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
           </div>
         </div>
-        <div class="rounded-lg border border-slate-100 p-4">
-          <p class="text-sm font-medium text-slate-700 mb-3">税务与资质信息</p>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-            <div class="first-call-field">
-              <label class="first-call-label">税务核定</label>
-              <select class="first-call-input">
-                <option value="">请选择税务核定日期</option>
-              </select>
-            </div>
-            <div class="first-call-field">
-              <label class="first-call-label">税务分局</label>
-              <input type="text" class="first-call-input" placeholder="请输入税务分局">
-            </div>
-            <div class="first-call-field">
-              <label class="first-call-label">开票税点</label>
-              <input type="text" class="first-call-input" placeholder="请输入开票税点">
-            </div>
-            <div class="first-call-field">
-              <label class="first-call-label">电子税务局密码</label>
-              <input type="text" class="first-call-input" placeholder="请输入电子税务局密码">
-            </div>
-            <div class="first-call-field">
-              <label class="first-call-label">资质许可证</label>
-              <input type="text" class="first-call-input" placeholder="请输入资质许可证信息">
-            </div>
-            <div class="first-call-field">
-              <label class="first-call-label">挂靠地址</label>
-              <input type="text" class="first-call-input" placeholder="请输入挂靠地址">
-            </div>
-            <div class="first-call-field">
-              <label class="first-call-label">开户行</label>
-              <input type="text" class="first-call-input" placeholder="请输入开户行">
-            </div>
-            <div class="first-call-field">
-              <label class="first-call-label">开户行账号</label>
-              <input type="text" class="first-call-input" placeholder="请输入开户行账号">
-            </div>
+        <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+          <label class="w-full sm:w-28 shrink-0 text-slate-600 sm:text-right">维护时间 <span class="text-red-500">*</span></label>
+          <div class="flex-1 min-w-0 relative">
+            <input id="maintain-time" type="datetime-local" class="w-full h-9 pl-3 pr-3 rounded-md border border-slate-200 text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-400/30 focus:border-blue-400">
           </div>
         </div>
-        <div class="rounded-lg border border-slate-100 p-4">
-          <p class="text-sm font-medium text-slate-700 mb-3">补充说明</p>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-            <div class="first-call-field md:col-span-2">
-              <label class="first-call-label">特殊业务</label>
-              <textarea class="first-call-textarea h-20" placeholder="请填写特殊业务说明"></textarea>
-            </div>
-            <div class="first-call-field md:col-span-2">
-              <label class="first-call-label">经营范围</label>
-              <textarea class="first-call-textarea h-20" placeholder="请输入经营范围"></textarea>
-            </div>
-            <div class="first-call-field">
-              <label class="first-call-label">开票信息</label>
-              <input type="text" class="first-call-input" placeholder="请输入企业开票信息">
-            </div>
-            <div class="first-call-field md:col-span-2">
-              <label class="first-call-label">客户备注</label>
-              <textarea class="first-call-textarea h-20" placeholder="请输入备注内容"></textarea>
-            </div>
+        <div class="flex flex-col sm:flex-row sm:items-start gap-2 sm:gap-4">
+          <label class="w-full sm:w-28 shrink-0 text-slate-600 sm:text-right pt-2">维护内容 <span class="text-red-500">*</span></label>
+          <div class="flex-1 min-w-0 relative">
+            <textarea id="maintain-content" maxlength="1000" rows="5" placeholder="请输入维护内容" class="w-full px-3 py-2.5 pb-8 rounded-md border border-slate-200 text-sm text-slate-800 placeholder:text-slate-400 resize-y min-h-[140px] focus:outline-none focus:ring-2 focus:ring-blue-400/30 focus:border-blue-400 bg-slate-50/80"></textarea>
+            <span class="absolute bottom-2 right-3 text-xs text-slate-400 tabular-nums pointer-events-none"><span id="cnt-maintain-content">0</span>/1000</span>
           </div>
         </div>
-      </div>
-      <div class="flex justify-center gap-3 border-t border-slate-100 px-5 py-4">
-        <button type="button" class="h-9 min-w-[90px] rounded-md bg-blue-600 text-white hover:bg-blue-700 cursor-pointer" data-close-first-call>确认</button>
-        <button type="button" class="h-9 min-w-[90px] rounded-md border border-slate-300 bg-white text-slate-600 hover:bg-slate-50 cursor-pointer" data-close-first-call>取消</button>
-      </div>
-    </div>
-  </div>
-
-  <div id="modal-progress-accounting" class="fixed inset-0 z-[130] hidden items-center justify-center bg-slate-900/45 p-4">
-    <div class="absolute inset-0" data-close-progress></div>
-    <div class="relative w-full max-w-lg rounded-xl border border-slate-200 bg-white shadow-xl">
-      <div class="relative border-b border-slate-200 px-5 py-4">
-        <h3 class="text-center text-base font-semibold text-slate-800">办理进度</h3>
-        <button type="button" class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600" data-close-progress><i class="fa-solid fa-xmark text-lg"></i></button>
-      </div>
-      <div class="px-6 py-5 space-y-4 text-sm">
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div><label class="block text-slate-600 mb-2">进度节点 <span class="text-red-500">*</span></label><select class="h-9 w-full rounded-md border border-slate-200 px-3 bg-white"><option>提交资料</option><option>记账</option></select></div>
-          <div><label class="block text-slate-600 mb-2">处理状态 <span class="text-red-500">*</span></label><select class="h-9 w-full rounded-md border border-slate-200 px-3 bg-white"><option>已完成</option><option>未完成</option></select></div>
-        </div>
-        <div><label class="block text-slate-600 mb-2">完成说明</label><textarea class="w-full h-24 rounded border border-slate-200 px-3 py-2 resize-none" placeholder="添加完成说明"></textarea></div>
-      </div>
-      <div class="flex justify-center gap-3 border-t border-slate-100 px-5 py-4">
-        <button type="button" class="h-9 min-w-[90px] rounded-md bg-blue-600 text-white hover:bg-blue-700" data-close-progress>确认</button>
-        <button type="button" class="h-9 min-w-[90px] rounded-md border border-slate-300 bg-white text-slate-600 hover:bg-slate-50" data-close-progress>取消</button>
+      </form>
+      <div class="flex justify-center gap-3 px-6 py-4 border-t border-slate-100 bg-slate-50/80 shrink-0">
+        <button type="button" id="btn-confirm-add-maintain" class="h-9 px-8 rounded-md bg-blue-600 text-white text-sm font-medium hover:bg-blue-700">确认</button>
+        <button type="button" id="btn-cancel-add-maintain" class="h-9 px-8 rounded-md border border-slate-200 bg-white text-sm text-slate-600 hover:bg-slate-50">取消</button>
       </div>
     </div>
   </div>
@@ -616,11 +758,24 @@
     (function () {
       var modalAdd = document.getElementById('modal-add-accounting');
       var modalDispatch = document.getElementById('modal-dispatch-accounting');
-      var modalFirstCall = document.getElementById('modal-first-call');
-      var modalProgress = document.getElementById('modal-progress-accounting');
+      var modalAddMaintain = document.getElementById('modal-add-maintain');
       var modalTransfer = document.getElementById('modal-transfer-accounting');
+      var maintainContent = document.getElementById('maintain-content');
+      var cntMaintainContent = document.getElementById('cnt-maintain-content');
       var toast = document.getElementById('accounting-toast');
       var toastTimer;
+
+      document.querySelectorAll('.acc-time-preset').forEach(function (sel) {
+        var label = sel.closest('label');
+        var customWrap = label ? label.querySelector('.acc-time-custom') : null;
+        function syncCustom() {
+          if (!customWrap) return;
+          var isCustom = sel.value === 'custom';
+          customWrap.classList.toggle('hidden', !isCustom);
+        }
+        sel.addEventListener('change', syncCustom);
+        syncCustom();
+      });
 
       function showToast(msg) {
         toast.textContent = msg || '创建成功';
@@ -630,17 +785,13 @@
       }
 
       var accSearchForm = document.getElementById('acc-search-form');
-      var filterDeadlineMonth = document.getElementById('filter-deadline-month');
       var activeTaxFilter = 'all';
 
       function applyAccFilters() {
-        var deadlineVal = filterDeadlineMonth ? filterDeadlineMonth.value : '';
         document.querySelectorAll('.acc-row').forEach(function (row) {
           var tax = row.getAttribute('data-tax');
           var taxOk = activeTaxFilter === 'all' || tax === activeTaxFilter;
-          var deadline = row.getAttribute('data-deadline') || '';
-          var deadlineOk = !deadlineVal || deadline === deadlineVal;
-          row.classList.toggle('hidden', !(taxOk && deadlineOk));
+          row.classList.toggle('hidden', !taxOk);
         });
       }
 
@@ -651,7 +802,14 @@
           showToast('查询成功');
         });
         accSearchForm.addEventListener('reset', function () {
-          setTimeout(applyAccFilters, 0);
+          setTimeout(function () {
+            document.querySelectorAll('.acc-time-preset').forEach(function (sel) {
+              var label = sel.closest('label');
+              var customWrap = label ? label.querySelector('.acc-time-custom') : null;
+              if (customWrap) customWrap.classList.add('hidden');
+            });
+            applyAccFilters();
+          }, 0);
         });
       }
 
@@ -673,8 +831,8 @@
 
       function openDispatch(row) {
         document.getElementById('dispatch-company').textContent = row.dataset.company || '—';
-        var contractSel = document.getElementById('dispatch-contract');
-        if (contractSel && row.dataset.contract) contractSel.value = row.dataset.contract;
+        var accountStartIn = document.getElementById('dispatch-account-start');
+        if (accountStartIn) accountStartIn.value = row.dataset.accountStart || '';
         modalDispatch.classList.remove('hidden');
         modalDispatch.classList.add('flex');
       }
@@ -690,31 +848,45 @@
         });
       });
 
-      document.querySelectorAll('.js-first-call').forEach(function (btn) {
+      function openAddMaintainModal() {
+        if (!modalAddMaintain) return;
+        modalAddMaintain.classList.remove('hidden');
+        modalAddMaintain.classList.add('flex');
+      }
+
+      function closeAddMaintainModal() {
+        if (!modalAddMaintain) return;
+        modalAddMaintain.classList.add('hidden');
+        modalAddMaintain.classList.remove('flex');
+      }
+
+      document.querySelectorAll('.js-add-maintain').forEach(function (btn) {
         btn.addEventListener('click', function () {
-          modalFirstCall.classList.remove('hidden');
-          modalFirstCall.classList.add('flex');
-        });
-      });
-      modalFirstCall.querySelectorAll('[data-close-first-call]').forEach(function (el) {
-        el.addEventListener('click', function () {
-          modalFirstCall.classList.add('hidden');
-          modalFirstCall.classList.remove('flex');
+          openAddMaintainModal();
         });
       });
 
-      document.querySelectorAll('.js-progress').forEach(function (btn) {
-        btn.addEventListener('click', function () {
-          modalProgress.classList.remove('hidden');
-          modalProgress.classList.add('flex');
+      var btnCloseAddMaintain = document.getElementById('btn-close-add-maintain');
+      var btnCancelAddMaintain = document.getElementById('btn-cancel-add-maintain');
+      var btnConfirmAddMaintain = document.getElementById('btn-confirm-add-maintain');
+      if (btnCloseAddMaintain) btnCloseAddMaintain.addEventListener('click', closeAddMaintainModal);
+      if (btnCancelAddMaintain) btnCancelAddMaintain.addEventListener('click', closeAddMaintainModal);
+      if (btnConfirmAddMaintain) {
+        btnConfirmAddMaintain.addEventListener('click', function () {
+          closeAddMaintainModal();
+          showToast('维护记录已添加');
         });
-      });
-      modalProgress.querySelectorAll('[data-close-progress]').forEach(function (el) {
-        el.addEventListener('click', function () {
-          modalProgress.classList.add('hidden');
-          modalProgress.classList.remove('flex');
+      }
+      if (modalAddMaintain) {
+        modalAddMaintain.addEventListener('click', function (e) {
+          if (e.target === modalAddMaintain) closeAddMaintainModal();
         });
-      });
+      }
+      if (maintainContent && cntMaintainContent) {
+        maintainContent.addEventListener('input', function () {
+          cntMaintainContent.textContent = String(maintainContent.value.length);
+        });
+      }
 
       function openTransfer(row) {
         var chiefIn = document.getElementById('transfer-current-chief');
@@ -758,8 +930,7 @@
         if (e.key !== 'Escape') return;
         modalAdd.classList.add('hidden'); modalAdd.classList.remove('flex');
         modalDispatch.classList.add('hidden'); modalDispatch.classList.remove('flex');
-        modalFirstCall.classList.add('hidden'); modalFirstCall.classList.remove('flex');
-        modalProgress.classList.add('hidden'); modalProgress.classList.remove('flex');
+        closeAddMaintainModal();
         modalTransfer.classList.add('hidden'); modalTransfer.classList.remove('flex');
       });
     })();

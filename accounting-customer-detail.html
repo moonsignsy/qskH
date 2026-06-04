@@ -12,7 +12,7 @@
 
   <style>
     body { font-family: "Microsoft YaHei", "PingFang SC", sans-serif; }
-    #modal-progress-detail:not(.hidden),
+    #modal-add-maintain:not(.hidden),
     #modal-first-call-detail:not(.hidden) { display: flex; }
     .acc-detail-page { width: 100%; max-width: none; }
     .acc-detail-page .detail-content-inner { width: 100%; max-width: none; }
@@ -59,6 +59,42 @@
       color: #1e293b;
       min-width: 0;
       word-break: break-word;
+    }
+    .service-summary-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.75rem 1.25rem;
+      padding: 0.875rem 1rem;
+      border-radius: 0.5rem;
+      background: linear-gradient(135deg, #eff6ff 0%, #f8fafc 100%);
+      border: 1px solid #dbeafe;
+      margin-bottom: 1rem;
+    }
+    .service-summary-bar .summary-item { font-size: 0.8125rem; color: #475569; }
+    .service-summary-bar .summary-item strong { color: #1e293b; font-weight: 600; }
+    .service-months-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.375rem;
+      padding: 0.25rem 0.625rem;
+      border-radius: 0.375rem;
+      background: #2563eb;
+      color: #fff;
+      font-size: 0.8125rem;
+      font-weight: 600;
+    }
+    .service-record-table tbody tr { cursor: pointer; transition: background-color 0.15s; }
+    .service-record-table tbody tr.sr-active { background: #eff6ff; }
+    .service-record-table tbody tr:hover:not(.sr-active) { background: #f8fafc; }
+    .sr-status-expired { color: #64748b; }
+    .sr-status-active { color: #2563eb; font-weight: 500; }
+    .sr-status-done { color: #16a34a; }
+    .renewal-hint {
+      font-size: 0.75rem;
+      color: #64748b;
+      margin-top: 0.5rem;
+      line-height: 1.5;
     }
     .attach-tile { aspect-ratio: 4/3; border-radius: 0.5rem; border: 1px dashed #cbd5e1; background: #f8fafc; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 0.75rem; color: #94a3b8; }
     .first-call-field {
@@ -216,6 +252,7 @@
                   <span><i class="fa-regular fa-user text-slate-400 mr-1.5"></i>联系人：<span id="acc-contact">李川</span></span>
                   <span><i class="fa-solid fa-phone text-slate-400 mr-1.5"></i><span id="acc-phone">13816207333</span></span>
                   <span><i class="fa-solid fa-user-tie text-slate-400 mr-1.5"></i>销售顾问：<span id="acc-sales">周方林 · 网销一组</span></span>
+                  <span><i class="fa-solid fa-clock-rotate-left text-slate-400 mr-1.5"></i>累计服务月份：<span id="acc-service-months" class="font-medium text-slate-800">—</span></span>
                 </div>
               </div>
               <div class="flex flex-wrap gap-2 shrink-0">
@@ -233,28 +270,50 @@
             </div>
 
             <div id="panel-order" class="space-y-4">
+              <div class="service-summary-bar" id="service-summary-bar">
+                <span class="service-months-badge"><i class="fa-solid fa-calendar-check text-xs"></i><span id="summary-service-months">—</span></span>
+                <span class="summary-item">当前合同：<strong id="summary-current-contract">—</strong></span>
+              </div>
+              <p class="renewal-hint">代账客户不随续费新增；合同到期后签订新合同，仅在本页新增一条服务记录。工单信息默认展示当前合同，可切换查看各条服务记录详情。</p>
+
+              <div class="info-card">
+                <h3 class="text-sm font-semibold text-slate-800 mb-3">服务记录</h3>
+                <div class="overflow-x-auto rounded-lg border border-slate-200">
+                  <table class="w-full min-w-[720px] text-sm service-record-table">
+                    <thead class="bg-slate-50 text-slate-600">
+                      <tr>
+                        <th class="text-left px-3 py-2.5 border-b border-slate-200 font-medium">关联合同</th>
+                        <th class="text-left px-3 py-2.5 border-b border-slate-200 font-medium">记账开始月份</th>
+                        <th class="text-left px-3 py-2.5 border-b border-slate-200 font-medium">收费截止月份</th>
+                        <th class="text-left px-3 py-2.5 border-b border-slate-200 font-medium">合同结束日期</th>
+                        <th class="text-left px-3 py-2.5 border-b border-slate-200 font-medium">本期服务月份</th>
+                        <th class="text-left px-3 py-2.5 border-b border-slate-200 font-medium">状态</th>
+                      </tr>
+                    </thead>
+                    <tbody id="service-record-list" class="text-slate-700"></tbody>
+                  </table>
+                </div>
+              </div>
+
               <div class="info-card">
                 <h3 class="text-sm font-semibold text-slate-800 mb-3">工单信息</h3>
                 <div id="order-info" class="text-sm"></div>
               </div>
               <div class="info-card">
                 <div class="flex items-center justify-between gap-3 mb-3">
-                  <h3 class="text-sm font-semibold text-slate-800">办理进度</h3>
-                  <button type="button" id="btn-open-progress-detail" class="text-sm text-blue-600 hover:text-blue-700 shrink-0">添加进度</button>
+                  <h3 class="text-sm font-semibold text-slate-800">客户维护</h3>
+                  <button type="button" id="btn-open-add-maintain" class="text-sm text-blue-600 hover:text-blue-700 shrink-0">添加维护</button>
                 </div>
                 <div class="overflow-x-auto rounded-lg border border-slate-200">
-                  <table class="w-full min-w-[560px] text-sm">
+                  <table class="w-full min-w-[480px] text-sm">
                     <thead class="bg-slate-50 text-slate-600">
                       <tr>
-                        <th class="text-left px-3 py-2.5 border-b border-slate-200 font-medium">进度节点</th>
-                        <th class="text-left px-3 py-2.5 border-b border-slate-200 font-medium">状态</th>
-                        <th class="text-left px-3 py-2.5 border-b border-slate-200 font-medium">经办人</th>
-                        <th class="text-left px-3 py-2.5 border-b border-slate-200 font-medium">办理日期</th>
-                        <th class="text-left px-3 py-2.5 border-b border-slate-200 font-medium">完成说明</th>
-                        <th class="text-left px-3 py-2.5 border-b border-slate-200 font-medium">操作</th>
+                        <th class="text-left px-3 py-2.5 border-b border-slate-200 font-medium">维护类型</th>
+                        <th class="text-left px-3 py-2.5 border-b border-slate-200 font-medium">维护时间</th>
+                        <th class="text-left px-3 py-2.5 border-b border-slate-200 font-medium">维护内容</th>
                       </tr>
                     </thead>
-                    <tbody id="progress-list" class="text-slate-700"></tbody>
+                    <tbody id="maintain-list" class="text-slate-700"></tbody>
                   </table>
                 </div>
               </div>
@@ -300,113 +359,74 @@
     <div class="absolute inset-0" data-close-first-call></div>
     <div class="relative w-full max-w-5xl rounded-xl border border-slate-200 bg-white shadow-xl">
       <div class="relative border-b border-slate-200 px-5 py-4">
-        <h3 class="text-center text-base font-semibold text-slate-800">编辑信息</h3>
+        <h3 class="text-center text-base font-semibold text-slate-800">编辑税务信息</h3>
         <button type="button" class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 cursor-pointer" data-close-first-call><i class="fa-solid fa-xmark text-lg"></i></button>
       </div>
       <div class="px-6 py-5 text-sm space-y-4 max-h-[72vh] overflow-y-auto">
-        <div class="rounded-lg border border-slate-100 bg-slate-50/70 p-4">
-          <p class="text-sm font-medium text-slate-700 mb-3">企业基础信息</p>
+        <div class="rounded-lg border border-slate-100 p-4">
+          <p class="text-sm font-medium text-slate-700 mb-3">税务信息</p>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
             <div class="first-call-field">
-              <label class="first-call-label">企业名称</label>
-              <input type="text" class="first-call-input" value="苏州企业税务服务科技有限公司">
+              <label class="first-call-label">注册日期</label>
+              <input type="date" class="first-call-input" id="fc-注册日期">
             </div>
             <div class="first-call-field">
               <label class="first-call-label">实际对接人姓名 <span class="text-red-500">*</span></label>
-              <select class="first-call-input">
-                <option value="">请输入实际对接人姓名</option>
-                <option>张三</option>
-                <option>李四</option>
-              </select>
+              <input type="text" class="first-call-input" id="fc-实际对接人姓名" placeholder="请输入实际对接人姓名">
             </div>
             <div class="first-call-field">
               <label class="first-call-label">实际对接人电话 <span class="text-red-500">*</span></label>
-              <input type="text" class="first-call-input" placeholder="请输入实际对接人电话">
+              <input type="text" class="first-call-input" id="fc-实际对接人电话" placeholder="请输入实际对接人电话">
             </div>
             <div class="first-call-field">
-              <label class="first-call-label">所属区域</label>
-              <select class="first-call-input">
-                <option value="">请选择所属区域</option>
-                <option>苏州</option>
-                <option>昆山</option>
+              <label class="first-call-label">行业类别</label>
+              <select class="first-call-input" id="fc-行业类别">
+                <option value="">请选择</option>
+                <option>制造业</option>
+                <option>批发零售</option>
+                <option>信息技术</option>
+                <option>商务服务</option>
               </select>
             </div>
             <div class="first-call-field">
               <label class="first-call-label">有无社保 <span class="text-red-500">*</span></label>
-              <select class="first-call-input">
+              <select class="first-call-input" id="fc-有无社保">
                 <option>有</option>
                 <option>无</option>
               </select>
             </div>
             <div class="first-call-field">
-              <label class="first-call-label">成立日期</label>
-              <select class="first-call-input">
-                <option value="">请选择成立日期</option>
-              </select>
-            </div>
-          </div>
-        </div>
-        <div class="rounded-lg border border-slate-100 p-4">
-          <p class="text-sm font-medium text-slate-700 mb-3">税务与资质信息</p>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-            <div class="first-call-field">
-              <label class="first-call-label">税务核定</label>
-              <select class="first-call-input">
-                <option value="">请选择税务核定日期</option>
+              <label class="first-call-label">有无CA</label>
+              <select class="first-call-input" id="fc-有无CA">
+                <option>有</option>
+                <option>无</option>
               </select>
             </div>
             <div class="first-call-field">
-              <label class="first-call-label">税务分局</label>
-              <input type="text" class="first-call-input" placeholder="请输入税务分局">
+              <label class="first-call-label">核定/查账</label>
+              <select class="first-call-input" id="fc-核定查账">
+                <option>核定征收</option>
+                <option>查账征收</option>
+              </select>
             </div>
             <div class="first-call-field">
-              <label class="first-call-label">税务局电话</label>
-              <input type="text" class="first-call-input" placeholder="请输入税务局电话">
+              <label class="first-call-label">核定额</label>
+              <input type="text" class="first-call-input" id="fc-核定额" placeholder="请输入核定额">
             </div>
             <div class="first-call-field">
-              <label class="first-call-label">开票税点</label>
-              <input type="text" class="first-call-input" placeholder="请输入开票税点">
-            </div>
-            <div class="first-call-field">
-              <label class="first-call-label">电子税务局密码</label>
-              <input type="text" class="first-call-input" placeholder="请输入电子税务局密码">
-            </div>
-            <div class="first-call-field">
-              <label class="first-call-label">资质许可证</label>
-              <input type="text" class="first-call-input" placeholder="请输入资质许可证信息">
-            </div>
-            <div class="first-call-field">
-              <label class="first-call-label">挂靠地址</label>
-              <input type="text" class="first-call-input" placeholder="请输入挂靠地址">
-            </div>
-            <div class="first-call-field">
-              <label class="first-call-label">开户行</label>
-              <input type="text" class="first-call-input" placeholder="请输入开户行">
-            </div>
-            <div class="first-call-field">
-              <label class="first-call-label">开户行账号</label>
-              <input type="text" class="first-call-input" placeholder="请输入开户行账号">
-            </div>
-          </div>
-        </div>
-        <div class="rounded-lg border border-slate-100 p-4">
-          <p class="text-sm font-medium text-slate-700 mb-3">补充说明</p>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-            <div class="first-call-field md:col-span-2">
-              <label class="first-call-label">特殊业务</label>
-              <textarea class="first-call-textarea h-20" placeholder="请填写特殊业务说明"></textarea>
+              <label class="first-call-label">是否绑定三方</label>
+              <select class="first-call-input" id="fc-是否绑定三方">
+                <option>是</option>
+                <option>否</option>
+              </select>
             </div>
             <div class="first-call-field md:col-span-2">
-              <label class="first-call-label">经营范围</label>
-              <textarea class="first-call-textarea h-20" placeholder="请输入经营范围"></textarea>
-            </div>
-            <div class="first-call-field">
-              <label class="first-call-label">开票信息</label>
-              <input type="text" class="first-call-input" placeholder="请输入企业开票信息">
+              <label class="first-call-label">诉求点</label>
+              <textarea class="first-call-textarea h-16" id="fc-诉求点" placeholder="请填写客户诉求点"></textarea>
             </div>
             <div class="first-call-field md:col-span-2">
               <label class="first-call-label">客户备注</label>
-              <textarea class="first-call-textarea h-20" placeholder="请输入备注内容"></textarea>
+              <textarea class="first-call-textarea h-20" id="fc-客户备注" placeholder="请输入备注内容"></textarea>
             </div>
           </div>
         </div>
@@ -418,23 +438,45 @@
     </div>
   </div>
 
-  <div id="modal-progress-detail" class="fixed inset-0 z-[130] hidden items-center justify-center bg-slate-900/45 p-4">
-    <div class="absolute inset-0" data-close-progress></div>
-    <div class="relative w-full max-w-lg rounded-xl border border-slate-200 bg-white shadow-xl">
-      <div class="relative border-b border-slate-200 px-5 py-4">
-        <h3 class="text-center text-base font-semibold text-slate-800">办理进度</h3>
-        <button type="button" class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600" data-close-progress><i class="fa-solid fa-xmark text-lg"></i></button>
+  <div id="modal-add-maintain" class="hidden fixed inset-0 z-[130] items-center justify-center bg-slate-900/45 p-4" role="dialog" aria-modal="true" aria-labelledby="modal-add-maintain-title">
+    <div class="absolute inset-0" data-close-maintain></div>
+    <div class="relative w-full max-w-lg rounded-xl border border-slate-200 bg-white shadow-xl overflow-hidden flex flex-col max-h-[90vh]">
+      <div class="relative flex items-center justify-center h-14 px-4 border-b border-slate-100 shrink-0">
+        <h2 id="modal-add-maintain-title" class="text-lg font-semibold text-slate-800">添加维护</h2>
+        <button type="button" class="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-md text-slate-400 hover:text-slate-600 hover:bg-slate-100 flex items-center justify-center" data-close-maintain aria-label="关闭"><i class="fa-solid fa-xmark text-lg"></i></button>
       </div>
-      <div class="px-6 py-5 space-y-4 text-sm">
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div><label class="block text-slate-600 mb-2">进度节点 <span class="text-red-500">*</span></label><select class="h-9 w-full rounded-md border border-slate-200 px-3 bg-white"><option>提交资料</option><option>记账</option></select></div>
-          <div><label class="block text-slate-600 mb-2">处理状态 <span class="text-red-500">*</span></label><select class="h-9 w-full rounded-md border border-slate-200 px-3 bg-white"><option>已完成</option><option>未完成</option></select></div>
+      <form id="form-add-maintain" class="overflow-y-auto flex-1 px-6 py-5 space-y-4 text-sm">
+        <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+          <label class="w-full sm:w-28 shrink-0 text-slate-600 sm:text-right">维护类型 <span class="text-red-500">*</span></label>
+          <div class="flex-1 min-w-0 relative">
+            <select id="maintain-type" class="w-full h-9 pl-3 pr-9 rounded-md border border-slate-200 text-slate-800 bg-white appearance-none focus:outline-none focus:ring-2 focus:ring-blue-400/30 focus:border-blue-400">
+              <option value="">请选择维护类型</option>
+              <option>日常回访</option>
+              <option>续费提醒</option>
+              <option>政策解读</option>
+              <option>问题处理</option>
+              <option>其他</option>
+            </select>
+            <i class="fa-solid fa-angle-down pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+          </div>
         </div>
-        <div><label class="block text-slate-600 mb-2">完成说明</label><textarea class="w-full h-24 rounded border border-slate-200 px-3 py-2 resize-none" placeholder="添加完成说明"></textarea></div>
-      </div>
-      <div class="flex justify-center gap-3 border-t border-slate-100 px-5 py-4">
-        <button type="button" class="h-9 min-w-[90px] rounded-md bg-blue-600 text-white hover:bg-blue-700" data-close-progress>确认</button>
-        <button type="button" class="h-9 min-w-[90px] rounded-md border border-slate-300 bg-white text-slate-600 hover:bg-slate-50" data-close-progress>取消</button>
+        <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+          <label class="w-full sm:w-28 shrink-0 text-slate-600 sm:text-right">维护时间 <span class="text-red-500">*</span></label>
+          <div class="flex-1 min-w-0 relative">
+            <input id="maintain-time" type="datetime-local" class="w-full h-9 pl-3 pr-3 rounded-md border border-slate-200 text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-400/30 focus:border-blue-400">
+          </div>
+        </div>
+        <div class="flex flex-col sm:flex-row sm:items-start gap-2 sm:gap-4">
+          <label class="w-full sm:w-28 shrink-0 text-slate-600 sm:text-right pt-2">维护内容 <span class="text-red-500">*</span></label>
+          <div class="flex-1 min-w-0 relative">
+            <textarea id="maintain-content" maxlength="1000" rows="5" placeholder="请输入维护内容" class="w-full px-3 py-2.5 pb-8 rounded-md border border-slate-200 text-sm text-slate-800 placeholder:text-slate-400 resize-y min-h-[140px] focus:outline-none focus:ring-2 focus:ring-blue-400/30 focus:border-blue-400 bg-slate-50/80"></textarea>
+            <span class="absolute bottom-2 right-3 text-xs text-slate-400 tabular-nums pointer-events-none"><span id="cnt-maintain-content">0</span>/1000</span>
+          </div>
+        </div>
+      </form>
+      <div class="flex justify-center gap-3 px-6 py-4 border-t border-slate-100 bg-slate-50/80 shrink-0">
+        <button type="button" id="btn-confirm-add-maintain" class="h-9 px-8 rounded-md bg-blue-600 text-white text-sm font-medium hover:bg-blue-700">确认</button>
+        <button type="button" class="h-9 px-8 rounded-md border border-slate-200 bg-white text-sm text-slate-600 hover:bg-slate-50" data-close-maintain>取消</button>
       </div>
     </div>
   </div>
@@ -443,23 +485,16 @@
     (function () {
       var SCOPE = '企业管理咨询；税务咨询；代理记账；财务信息咨询。日用百货、五金交电、机械设备及配件销售。';
       var BASE_ARCHIVE = {
+        注册日期: '2023-04-15',
         实际对接人姓名: '李小明',
         实际对接人电话: '13800138000',
-        所属区域: '苏州',
+        行业类别: '商务服务',
         有无社保: '有',
-        成立日期: '2023-04-15',
-        税务核定: '2023-04-20',
-        税务分局: '苏州工业园区税务分局',
-        税务局电话: '0512-62886688',
-        开票税点: '3%',
-        电子税务局密码: '******',
-        资质许可证: '—',
-        挂靠地址: '江苏省苏州市吴中区红海大厦2005',
-        开户行: '中国工商银行苏州分行',
-        开户行账号: '6222020202020202020',
-        特殊业务: '—',
-        经营范围: '企业管理咨询；税务咨询；代理记账；财务信息咨询。',
-        开票信息: '增值税普通发票，抬头同企业名称',
+        有无CA: '有',
+        '核定/查账': '查账征收',
+        核定额: '按实际经营核定',
+        是否绑定三方: '是',
+        诉求点: '每月5号前出具财务报表；关注研发费用加计扣除政策',
         客户备注: '客户需每月5号前出报告'
       };
       var BASE_IC = {
@@ -471,24 +506,21 @@
         注册资本: '10万',
         注册地址: '江苏省苏州市吴中区'
       };
-      var BASE_PROGRESS = [
-        { node: '确认服务', status: '进行中', owner: '马会计', date: '2026-04-13', desc: '资料核对中', action: '—' },
-        { node: '建账/申报', status: '完成', owner: '马会计', date: '2026-04-13', desc: '本月申报已完成', action: '编辑' }
+      var BASE_MAINTAIN = [
+        { type: '日常回访', time: '2026-04-13 10:30', content: '与客户确认本月账务资料已收齐，无异常事项。' },
+        { type: '政策解读', time: '2026-03-28 15:00', content: '解读小规模纳税人最新优惠政策，客户表示已了解。' }
       ];
 
-      function makeEntry(company, contact, phone, contract, feeMonth, amount, taxType, sales, dept, serviceDept, chief, adviser, invoice, archiveExtra) {
-        var archive = {};
-        Object.keys(BASE_ARCHIVE).forEach(function (k) { archive[k] = BASE_ARCHIVE[k]; });
-        archive.企业名称 = company;
-        if (archiveExtra) Object.keys(archiveExtra).forEach(function (k) { archive[k] = archiveExtra[k]; });
-        var order = {
+      function buildOrder(company, contract, feeMonth, amount, taxType, sales, dept, serviceDept, chief, adviser, invoice, accountStart, feeDeadline, contractEnd) {
+        return {
           企业名称: company,
           关联合同: { text: contract, href: '#' },
           代账金额: amount,
           收费单位: '年付',
           '代账费/月': feeMonth,
-          记账开始月份: '2026-06',
-          收费截止月份: '2027-05',
+          记账开始月份: accountStart || '2026年6月',
+          收费截止月份: feeDeadline || '2027年6月',
+          合同结束日期: contractEnd || '2028年3月',
           企业类型: taxType,
           销售顾问: sales,
           业务部门: dept,
@@ -497,30 +529,91 @@
           主办会计: chief || '—',
           服务部门: serviceDept || '—'
         };
-        var ic = {
-          企业名称: company,
-          法定代表人: contact,
-          联系电话: phone
-        };
-        Object.keys(BASE_IC).forEach(function (k) { ic[k] = BASE_IC[k]; });
+      }
+
+      function makeEntry(company, contact, phone, contract, feeMonth, amount, taxType, sales, dept, serviceDept, chief, adviser, invoice, archiveExtra, serviceOpts) {
+        var archive = {};
+        Object.keys(BASE_ARCHIVE).forEach(function (k) { archive[k] = BASE_ARCHIVE[k]; });
+        if (archiveExtra) Object.keys(archiveExtra).forEach(function (k) { archive[k] = archiveExtra[k]; });
+        var opts = serviceOpts || {};
+        var records = opts.serviceRecords;
+        if (!records || !records.length) {
+          var singleOrder = buildOrder(company, contract, feeMonth, amount, taxType, sales, dept, serviceDept, chief, adviser, invoice, opts.accountStart, opts.feeDeadline, opts.contractEnd);
+          records = [{
+            id: 'sr-1',
+            periodType: 'first',
+            periodLabel: '首期',
+            periodMonths: opts.periodMonths || '8个月',
+            status: opts.periodStatus || '服务中',
+            statusKey: 'active',
+            isCurrent: true,
+            renewedAt: null,
+            order: singleOrder
+          }];
+        }
+        var currentId = opts.currentRecordId;
+        if (!currentId) {
+          var cur = records.filter(function (r) { return r.isCurrent; })[0];
+          currentId = cur ? cur.id : records[records.length - 1].id;
+        }
+        records.forEach(function (r) { r.isCurrent = r.id === currentId; });
+        var currentRec = records.filter(function (r) { return r.id === currentId; })[0] || records[0];
         return {
           contact: contact,
           phone: phone,
-          order: order,
+          serviceMonthsTotal: opts.serviceMonthsTotal || '8个月',
+          serviceRecords: records,
+          currentRecordId: currentId,
+          order: currentRec.order,
           archive: archive,
-          ic: ic,
+          ic: (function () {
+            var ic = { 企业名称: company, 法定代表人: contact, 联系电话: phone };
+            Object.keys(BASE_IC).forEach(function (k) { ic[k] = BASE_IC[k]; });
+            return ic;
+          })(),
           scope: SCOPE,
-          progress: BASE_PROGRESS.slice()
+          maintainList: (opts.maintainList || BASE_MAINTAIN).slice()
         };
       }
 
+      function makeRenewalRecords(company, contract1, contract2, feeMonth, amount, taxType, sales, dept, serviceDept, chief, adviser, invoice) {
+        return [
+          {
+            id: 'sr-1',
+            periodType: 'first',
+            periodLabel: '首期',
+            periodMonths: '1年',
+            status: '已到期',
+            statusKey: 'expired',
+            isCurrent: false,
+            renewedAt: '2025-07-01',
+            order: buildOrder(company, contract1, feeMonth, amount, taxType, sales, dept, serviceDept, chief, adviser, invoice, '2024年6月', '2025年6月', '2025年6月')
+          },
+          {
+            id: 'sr-2',
+            periodType: 'renew',
+            periodLabel: '第2期（续费）',
+            periodMonths: '8个月',
+            status: '服务中',
+            statusKey: 'active',
+            isCurrent: true,
+            renewedAt: null,
+            order: buildOrder(company, contract2, feeMonth, amount, taxType, sales, dept, serviceDept, chief, adviser, invoice, '2025年7月', '2026年6月', '2028年3月')
+          }
+        ];
+      }
+
       var dataMap = {
-        'acc-1': makeEntry('苏州美的信息科技有限公司', '李川', '13816207333', '20260415002', '333', '4000', '一般纳税人', '周方林', '网销一组', '—', '—', '—', '—'),
+        'acc-1': makeEntry('苏州美的信息科技有限公司', '李川', '13816207333', '20260415002', '333', '4000', '一般纳税人', '周方林', '网销一组', '—', '—', '—', '—', null, { serviceMonthsTotal: '8个月', periodMonths: '8个月' }),
         'acc-2': makeEntry('苏州维的科技有限公司', '王某', '13700001111', '20260415002', '292', '3500', '一般纳税人', '周方林', '网销一组', '—', '—', '—', '—'),
-        'acc-3': makeEntry('苏州维的科技有限公司', '周某', '13700002222', '20260415003', '117', '1400', '小规模纳税人', '周方林', '常熟组', '顾问二组', '—', '—', '—', { 所属区域: '常熟' }),
-        'acc-4': makeEntry('万州维的科技有限公司', '赵某', '13700003333', '20260415004', '125', '1500', '一般纳税人', '周方林', '岚诺组', '—', '—', '—', '—', { 所属区域: '万州' }),
-        'acc-5': makeEntry('苏州维的科技有限公司', '陈某', '13700004444', '20260415005', '325', '4000', '一般纳税人', '周方林', '网销一组', '顾问一组', '马时笑', '马时笑', '马时笑'),
-        'acc-6': makeEntry('苏州维的科技有限公司', '孙某', '13700005555', '20260415006', '117', '6500', '小规模纳税人', '周方林', '常熟组', '顾问一组', '马时笑', '马时笑', '马时笑', { 所属区域: '常熟', 客户备注: '续费跟进中' })
+        'acc-3': makeEntry('苏州维的科技有限公司', '周某', '13700002222', '20260415003', '117', '1400', '小规模纳税人', '周方林', '常熟组', '顾问二组', '—', '—', '—'),
+        'acc-4': makeEntry('万州维的科技有限公司', '赵某', '13700003333', '20260415004', '125', '1500', '一般纳税人', '周方林', '岚诺组', '—', '—', '—', '—', null, { serviceMonthsTotal: '2年3个月', periodMonths: '2年3个月' }),
+        'acc-5': makeEntry('苏州维的科技有限公司', '陈某', '13700004444', '20260415005', '325', '4000', '一般纳税人', '周方林', '网销一组', '顾问一组', '马时笑', '马时笑', '马时笑', null, {
+          serviceMonthsTotal: '1年8个月',
+          serviceRecords: makeRenewalRecords('苏州维的科技有限公司', '20250415005', '20260415005', '325', '4000', '一般纳税人', '周方林', '网销一组', '顾问一组', '马时笑', '马时笑', '马时笑'),
+          currentRecordId: 'sr-2'
+        }),
+        'acc-6': makeEntry('苏州维的科技有限公司', '孙某', '13700005555', '20260415006', '117', '6500', '小规模纳税人', '周方林', '常熟组', '顾问一组', '马时笑', '马时笑', '马时笑', { 客户备注: '续费跟进中', 诉求点: '关注小规模优惠政策变更' }, { serviceMonthsTotal: '1年', periodMonths: '1年' })
       };
 
       var params = new URLSearchParams(location.search);
@@ -530,7 +623,7 @@
 
       var HEADER_ORDER_KEYS = ['企业名称', '销售顾问', '业务部门', '企业类型'];
       var ORDER_FIELD_ORDER = [
-        '关联合同', '代账金额', '收费单位', '代账费/月', '记账开始月份', '收费截止月份',
+        '关联合同', '代账金额', '收费单位', '代账费/月', '记账开始月份', '收费截止月份', '合同结束日期',
         '开票员', '财税顾问', '主办会计', '服务部门'
       ];
 
@@ -560,7 +653,7 @@
         if (taxEl) taxEl.textContent = order['企业类型'] || '—';
       }
 
-      function renderOrderInfo(order) {
+      function renderOrderInfo(order, rec) {
         var el = document.getElementById('order-info');
         if (!el) return;
         var shown = {};
@@ -578,10 +671,80 @@
       }
 
       var ARCHIVE_ORDER = [
-        '企业名称', '实际对接人姓名', '实际对接人电话', '所属区域', '有无社保', '成立日期',
-        '税务核定', '税务分局', '税务局电话', '开票税点', '电子税务局密码', '资质许可证', '挂靠地址',
-        '开户行', '开户行账号', '特殊业务', '经营范围', '开票信息', '客户备注'
+        '注册日期', '实际对接人姓名', '实际对接人电话', '行业类别', '有无社保', '有无CA',
+        '核定/查账', '核定额', '是否绑定三方', '诉求点', '客户备注'
       ];
+
+      var state = { data: null, activeRecordId: null };
+
+      function statusClass(key) {
+        if (key === 'active') return 'sr-status-active';
+        if (key === 'expired') return 'sr-status-expired';
+        return 'sr-status-done';
+      }
+
+      function contractText(order) {
+        var c = order['关联合同'];
+        if (c && typeof c === 'object' && c.text) return c.text;
+        return c || '—';
+      }
+
+      function renderMaintainList(list) {
+        var tbody = document.getElementById('maintain-list');
+        if (!tbody) return;
+        tbody.innerHTML = (list || []).map(function (m) {
+          return '<tr class="hover:bg-slate-50">' +
+            '<td class="px-3 py-2.5 border-b border-slate-100">' + (m.type || '—') + '</td>' +
+            '<td class="px-3 py-2.5 border-b border-slate-100 whitespace-nowrap">' + (m.time || '—') + '</td>' +
+            '<td class="px-3 py-2.5 border-b border-slate-100">' + (m.content || '—') + '</td>' +
+            '</tr>';
+        }).join('');
+      }
+
+      function renderServiceSummary(data) {
+        var monthsEl = document.getElementById('acc-service-months');
+        var sumMonths = document.getElementById('summary-service-months');
+        var sumContract = document.getElementById('summary-current-contract');
+        var total = data.serviceMonthsTotal || '—';
+        if (monthsEl) monthsEl.textContent = total;
+        if (sumMonths) sumMonths.textContent = total;
+        var cur = (data.serviceRecords || []).filter(function (r) { return r.id === state.activeRecordId; })[0];
+        if (sumContract && cur) sumContract.textContent = contractText(cur.order);
+      }
+
+      function renderServiceRecords(data) {
+        var tbody = document.getElementById('service-record-list');
+        if (!tbody) return;
+        tbody.innerHTML = (data.serviceRecords || []).map(function (rec) {
+          var o = rec.order;
+          var active = rec.id === state.activeRecordId;
+          var renewNote = rec.renewedAt ? '<span class="block text-xs text-slate-400 mt-0.5">续费于 ' + rec.renewedAt + '</span>' : '';
+          return '<tr class="' + (active ? 'sr-active' : '') + '" data-record-id="' + rec.id + '">' +
+            '<td class="px-3 py-2.5 border-b border-slate-100">' + contractText(o) + renewNote + '</td>' +
+            '<td class="px-3 py-2.5 border-b border-slate-100">' + (o['记账开始月份'] || '—') + '</td>' +
+            '<td class="px-3 py-2.5 border-b border-slate-100">' + (o['收费截止月份'] || '—') + '</td>' +
+            '<td class="px-3 py-2.5 border-b border-slate-100">' + (o['合同结束日期'] || '—') + '</td>' +
+            '<td class="px-3 py-2.5 border-b border-slate-100">' + (rec.periodMonths || '—') + '</td>' +
+            '<td class="px-3 py-2.5 border-b border-slate-100 ' + statusClass(rec.statusKey) + '">' + rec.status + '</td>' +
+            '</tr>';
+        }).join('');
+        tbody.querySelectorAll('tr[data-record-id]').forEach(function (row) {
+          row.addEventListener('click', function () {
+            selectServiceRecord(row.getAttribute('data-record-id'));
+          });
+        });
+      }
+
+      function selectServiceRecord(recordId) {
+        if (!state.data) return;
+        var rec = (state.data.serviceRecords || []).filter(function (r) { return r.id === recordId; })[0];
+        if (!rec) return;
+        state.activeRecordId = recordId;
+        renderServiceRecords(state.data);
+        renderOrderInfo(rec.order, rec);
+        var sumContract = document.getElementById('summary-current-contract');
+        if (sumContract) sumContract.textContent = contractText(rec.order);
+      }
       function renderTaxInfo(archive) {
         var el = document.getElementById('block-tax-info');
         if (!el || !archive) return;
@@ -609,10 +772,44 @@
           '<div class="full"><dt>经营范围</dt><dd class="leading-relaxed rounded-lg border border-slate-100 bg-slate-50/80 p-3 mt-0.5">' + (scope || '—') + '</dd></div>';
       }
 
+      function fillFirstCallForm(archive) {
+        if (!archive) return;
+        var map = {
+          'fc-注册日期': archive['注册日期'],
+          'fc-实际对接人姓名': archive['实际对接人姓名'],
+          'fc-实际对接人电话': archive['实际对接人电话'],
+          'fc-行业类别': archive['行业类别'],
+          'fc-有无社保': archive['有无社保'],
+          'fc-有无CA': archive['有无CA'],
+          'fc-核定查账': archive['核定/查账'],
+          'fc-核定额': archive['核定额'],
+          'fc-是否绑定三方': archive['是否绑定三方'],
+          'fc-诉求点': archive['诉求点'],
+          'fc-客户备注': archive['客户备注']
+        };
+        Object.keys(map).forEach(function (id) {
+          var el = document.getElementById(id);
+          if (!el || map[id] == null) return;
+          el.value = map[id];
+        });
+      }
+
+      state.data = d;
+      state.activeRecordId = d.currentRecordId;
+
       renderHeader(d);
-      renderOrderInfo(d.order);
+      renderServiceSummary(d);
+      renderServiceRecords(d);
+      var activeRec = (d.serviceRecords || []).filter(function (r) { return r.id === state.activeRecordId; })[0];
+      if (activeRec) {
+        renderOrderInfo(activeRec.order, activeRec);
+      } else {
+        renderOrderInfo(d.order);
+      }
+      renderMaintainList(d.maintainList);
       renderTaxInfo(d.archive);
       renderIcProfile(d.ic, d.scope);
+      fillFirstCallForm(d.archive);
 
       var accTabs = document.querySelectorAll('#acc-tabs [data-tab]');
       var accPanels = {
@@ -633,26 +830,65 @@
       });
       switchAccTab('order');
 
-      document.getElementById('progress-list').innerHTML = d.progress.map(function (p) {
-        var statusCls = p.status === '进行中' ? 'text-amber-600' : (p.status === '完成' ? 'text-emerald-600' : 'text-slate-600');
-        var actionHtml = !p.action || p.action === '—' ? '—' : '<button type="button" class="text-blue-600 hover:underline">' + p.action + '</button>';
-        return '<tr class="hover:bg-slate-50"><td class="px-3 py-2.5 border-b border-slate-100">' + p.node + '</td><td class="px-3 py-2.5 border-b border-slate-100 ' + statusCls + '">' + p.status + '</td><td class="px-3 py-2.5 border-b border-slate-100">' + p.owner + '</td><td class="px-3 py-2.5 border-b border-slate-100">' + p.date + '</td><td class="px-3 py-2.5 border-b border-slate-100">' + p.desc + '</td><td class="px-3 py-2.5 border-b border-slate-100">' + actionHtml + '</td></tr>';
-      }).join('');
+      var modalMaintain = document.getElementById('modal-add-maintain');
+      var maintainContent = document.getElementById('maintain-content');
+      var cntMaintainContent = document.getElementById('cnt-maintain-content');
 
-      var modal = document.getElementById('modal-progress-detail');
-      document.getElementById('btn-open-progress-detail').addEventListener('click', function () {
-        modal.classList.remove('hidden');
-        modal.classList.add('flex');
+      function closeMaintainModal() {
+        if (!modalMaintain) return;
+        modalMaintain.classList.add('hidden');
+        modalMaintain.classList.remove('flex');
+      }
+
+      function formatMaintainTime(value) {
+        if (!value) return '—';
+        var d = new Date(value);
+        if (isNaN(d.getTime())) return value;
+        var pad = function (n) { return String(n).padStart(2, '0'); };
+        return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) + ' ' + pad(d.getHours()) + ':' + pad(d.getMinutes());
+      }
+
+      document.getElementById('btn-open-add-maintain').addEventListener('click', function () {
+        if (maintainContent) maintainContent.value = '';
+        if (cntMaintainContent) cntMaintainContent.textContent = '0';
+        var typeEl = document.getElementById('maintain-type');
+        var timeEl = document.getElementById('maintain-time');
+        if (typeEl) typeEl.value = '';
+        if (timeEl) timeEl.value = '';
+        modalMaintain.classList.remove('hidden');
+        modalMaintain.classList.add('flex');
       });
-      modal.querySelectorAll('[data-close-progress]').forEach(function (el) {
-        el.addEventListener('click', function () {
-          modal.classList.add('hidden');
-          modal.classList.remove('flex');
+      if (maintainContent && cntMaintainContent) {
+        maintainContent.addEventListener('input', function () {
+          cntMaintainContent.textContent = String(maintainContent.value.length);
         });
+      }
+      document.getElementById('btn-confirm-add-maintain').addEventListener('click', function () {
+        var typeEl = document.getElementById('maintain-type');
+        var timeEl = document.getElementById('maintain-time');
+        var type = typeEl ? typeEl.value : '';
+        var timeRaw = timeEl ? timeEl.value : '';
+        var content = maintainContent ? maintainContent.value.trim() : '';
+        if (!type || !timeRaw || !content) {
+          alert('请填写维护类型、维护时间和维护内容');
+          return;
+        }
+        if (!state.data.maintainList) state.data.maintainList = [];
+        state.data.maintainList.unshift({
+          type: type,
+          time: formatMaintainTime(timeRaw),
+          content: content
+        });
+        renderMaintainList(state.data.maintainList);
+        closeMaintainModal();
+      });
+      modalMaintain.querySelectorAll('[data-close-maintain]').forEach(function (el) {
+        el.addEventListener('click', closeMaintainModal);
       });
 
       var modalFC = document.getElementById('modal-first-call-detail');
       document.getElementById('btn-open-first-call-detail').addEventListener('click', function () {
+        if (state.data && state.data.archive) fillFirstCallForm(state.data.archive);
         modalFC.classList.remove('hidden');
         modalFC.classList.add('flex');
       });
@@ -665,8 +901,7 @@
 
       document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape') {
-          modal.classList.add('hidden');
-          modal.classList.remove('flex');
+          closeMaintainModal();
           modalFC.classList.add('hidden');
           modalFC.classList.remove('flex');
         }
