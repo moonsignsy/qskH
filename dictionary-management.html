@@ -313,7 +313,8 @@
             { key: 'industry', label: '行业类别', btn: '新增类别' },
             { key: 'form', label: '企业形式', btn: '新增类别' },
             { key: 'nature', label: '企业性质', btn: '新增类别' },
-            { key: 'source', label: '来源渠道', btn: '新增类别' }
+            { key: 'source', label: '来源渠道', btn: '新增类别' },
+            { key: 'cost', label: '客户成本', btn: '新增类别' }
           ]
         },
         approval: {
@@ -590,7 +591,7 @@
             }).join('') +
             '</tbody></table>';
         } else if (state.menu === 'customer') {
-          var tabTitle = { industry: '行业类别', form: '企业形式', nature: '企业性质', source: '来源渠道' }[state.tab];
+          var tabTitle = { industry: '行业类别', form: '企业形式', nature: '企业性质', source: '来源渠道', cost: '客户成本' }[state.tab];
           html = '<table class="w-full min-w-[760px] text-sm"><thead class="bg-slate-50 text-slate-600"><tr><th class="text-left px-3 py-3 border-b border-slate-200 font-medium">序号</th><th class="text-left px-3 py-3 border-b border-slate-200 font-medium">名称</th><th class="text-left px-3 py-3 border-b border-slate-200 font-medium">创建时间</th><th class="text-left px-3 py-3 border-b border-slate-200 font-medium">操作</th></tr></thead><tbody class="text-slate-700">' +
             '<tr class="hover:bg-slate-50"><td class="px-3 py-3 border-b border-slate-100">01</td><td class="px-3 py-3 border-b border-slate-100">' + tabTitle + '示例A</td><td class="px-3 py-3 border-b border-slate-100">2026-04-24 11:23:23</td><td class="px-3 py-3 border-b border-slate-100"><a href="#" class="text-blue-600 hover:underline mr-3">修改</a><button type="button" class="text-blue-600 hover:underline js-dict-delete">删除</button></td></tr>' +
             '<tr class="hover:bg-slate-50"><td class="px-3 py-3 border-b border-slate-100">02</td><td class="px-3 py-3 border-b border-slate-100">' + tabTitle + '示例B</td><td class="px-3 py-3 border-b border-slate-100">2026-04-24 11:23:23</td><td class="px-3 py-3 border-b border-slate-100"><a href="#" class="text-blue-600 hover:underline mr-3">修改</a><button type="button" class="text-blue-600 hover:underline js-dict-delete">删除</button></td></tr>' +
