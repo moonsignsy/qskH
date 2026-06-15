@@ -1057,32 +1057,24 @@
     <div class="absolute inset-0" data-close-transfer-gov></div>
     <div class="relative w-full max-w-lg rounded-xl border border-slate-200 bg-white shadow-xl">
       <div class="relative border-b border-slate-200 px-5 py-4">
-        <h3 class="text-center text-base font-semibold text-slate-800">确认移交</h3>
+        <h3 class="text-center text-sm font-medium text-slate-800 leading-relaxed px-6">确认移交当前选中工单至以下工商专员？</h3>
         <button type="button" class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600" data-close-transfer-gov><i class="fa-solid fa-xmark text-lg"></i></button>
       </div>
       <div class="px-6 py-5 space-y-4 text-sm">
         <div class="grid grid-cols-[100px_1fr] items-center gap-3">
-          <label class="text-right text-slate-600">现在的线上申报员</label>
-          <input id="gov-transfer-current-online" type="text" class="h-9 rounded border border-slate-200 px-3 bg-slate-50 text-slate-600" readonly value="周芳林">
-        </div>
-        <div class="grid grid-cols-[100px_1fr] items-center gap-3">
-          <label class="text-right text-slate-600">现在的线下提报员</label>
-          <input id="gov-transfer-current-offline" type="text" class="h-9 rounded border border-slate-200 px-3 bg-slate-50 text-slate-600" readonly value="许月">
-        </div>
-        <div class="grid grid-cols-[100px_1fr] items-center gap-3">
-          <label class="text-right text-slate-600"><span class="text-red-500">*</span> 移交线上申报员</label>
-          <select id="gov-transfer-new-online" class="h-9 rounded border border-slate-200 px-3 bg-white text-slate-700">
-            <option>周芳林</option>
+          <label class="text-right text-slate-600"><span class="text-red-500">*</span> 工商专员</label>
+          <select id="gov-transfer-agent" class="h-9 rounded border border-slate-200 px-3 bg-white text-slate-700">
             <option>许月</option>
             <option>许悦</option>
+            <option>周芳林</option>
           </select>
         </div>
         <div class="grid grid-cols-[100px_1fr] items-center gap-3">
-          <label class="text-right text-slate-600"><span class="text-red-500">*</span> 移交线下提报员</label>
-          <select id="gov-transfer-new-offline" class="h-9 rounded border border-slate-200 px-3 bg-white text-slate-700">
-            <option>许月</option>
-            <option>许悦</option>
-            <option>周芳林</option>
+          <label class="text-right text-slate-600"><span class="text-red-500">*</span> 办件方式</label>
+          <select id="gov-transfer-handle-method" class="h-9 rounded border border-slate-200 px-3 bg-white text-slate-700">
+            <option>线上</option>
+            <option>线下</option>
+            <option>线上/下</option>
           </select>
         </div>
       </div>
@@ -1473,16 +1465,13 @@
         });
       });
       function openTransferGov(row) {
-        var onlineIn = document.getElementById('gov-transfer-current-online');
-        var offlineIn = document.getElementById('gov-transfer-current-offline');
-        var newOnline = document.getElementById('gov-transfer-new-online');
-        var newOffline = document.getElementById('gov-transfer-new-offline');
+        var agentSel = document.getElementById('gov-transfer-agent');
+        var methodSel = document.getElementById('gov-transfer-handle-method');
         if (row) {
-          var agent = row.dataset.agent || row.dataset.offline || '—';
-          if (onlineIn) onlineIn.value = agent;
-          if (offlineIn) offlineIn.value = agent;
-          if (newOnline && agent) newOnline.value = agent;
-          if (newOffline && agent) newOffline.value = agent;
+          var agent = row.dataset.agent || '';
+          var method = row.dataset.handleMethod || '';
+          if (agentSel && agent) agentSel.value = agent;
+          if (methodSel && method) methodSel.value = method;
         }
         if (modalTransferGov) {
           modalTransferGov.classList.remove('hidden');
