@@ -665,7 +665,52 @@
             </div>
             <div class="mt-5"><p class="text-sm font-medium text-slate-800 mb-2">上传交接资料</p><div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs"><div><p class="mb-1 text-slate-600">营业执照</p><div class="h-24 rounded border border-dashed border-slate-300 bg-slate-50 flex flex-col items-center justify-center text-slate-500"><i class="fa-solid fa-cloud-arrow-up mb-2"></i><span>上传文件</span></div></div><div><p class="mb-1 text-slate-600">法人身份证</p><div class="h-24 rounded border border-dashed border-slate-300 bg-slate-50 flex flex-col items-center justify-center text-slate-500"><i class="fa-solid fa-cloud-arrow-up mb-2"></i><span>上传文件</span></div></div><div><p class="mb-1 text-slate-600">余额表</p><div class="h-24 rounded border border-dashed border-slate-300 bg-slate-50 flex flex-col items-center justify-center text-slate-500"><i class="fa-solid fa-cloud-arrow-up mb-2"></i><span>上传文件</span></div></div><div><p class="mb-1 text-slate-600">其他附件</p><div class="h-24 rounded border border-dashed border-slate-300 bg-slate-50 flex flex-col items-center justify-center text-slate-500"><i class="fa-solid fa-cloud-arrow-up mb-2"></i><span>上传文件</span></div></div></div></div>
           </div>
-          <div id="supp-panel-industry" class="hidden"><div class="mb-3 flex items-center gap-2 border-b border-slate-200 bg-slate-50 px-3 py-2 text-sm font-medium text-slate-800"><span class="h-4 w-1 rounded-sm bg-blue-600"></span>工商信息表</div><div class="text-sm" id="supp-ic-form"><label class="block mb-2.5"><span class="field-label">公司名称</span><input type="text" class="field-input" placeholder="请输入公司名称"></label><div class="grid grid-cols-1 sm:grid-cols-3 gap-x-4 gap-y-2.5 mb-2.5"><label><span class="field-label">法定代表人</span><input type="text" class="field-input" placeholder="请输入法定代表人姓名"></label><label><span class="field-label">股份占比（%）</span><input type="text" class="field-input" placeholder="请输入股份占比"></label><label><span class="field-label">联系电话</span><input type="text" class="field-input" placeholder="请输入联系电话"></label></div><div class="grid grid-cols-1 sm:grid-cols-3 gap-x-4 gap-y-2.5 mb-2.5"><label class="sm:col-span-1"><span class="field-label">身份证号码</span><input type="text" class="field-input" placeholder="请输入身份证号码"></label></div><div id="supp-shareholder-list" class="mb-2.5"><div class="shareholder-block" data-shareholder-index="0"><div class="grid grid-cols-1 sm:grid-cols-3 gap-x-4 gap-y-2.5"><label class="supp-sh-name-wrap"><span class="field-label supp-sh-name-label">股东姓名</span><input type="text" class="field-input supp-sh-name" placeholder="请输入股东姓名"></label><div><span class="field-label">主体类型</span><div class="entity-type-box"><label><input type="radio" name="supp-entityType-0" value="person" class="supp-entity-type"> 自然人</label><label><input type="radio" name="supp-entityType-0" value="company" class="supp-entity-type" checked> 公司</label></div></div><label><span class="field-label">股份占比（%）</span><input type="text" class="field-input" placeholder="请输入股份占比"></label></div><div class="grid grid-cols-1 sm:grid-cols-3 gap-x-4 gap-y-2.5 mt-2.5"><label class="supp-sh-id-wrap"><span class="field-label supp-sh-id-label">统一社会信用代码</span><input type="text" class="field-input supp-sh-id" placeholder="请输入统一社会信用代码"></label><label><span class="field-label">联系电话</span><input type="text" class="field-input" placeholder="请输入联系电话"></label><div class="flex items-end justify-end pb-0.5"><button type="button" id="supp-add-shareholder" class="text-xs text-blue-600 hover:underline whitespace-nowrap">+ 添加股东</button></div></div></div></div><div class="grid grid-cols-1 sm:grid-cols-3 gap-x-4 gap-y-2.5 mb-2.5"><label><span class="field-label">内部财务</span><input type="text" class="field-input" placeholder="请输入内部财务姓名"></label><label><span class="field-label">股份占比（%）</span><input type="text" class="field-input" placeholder="请输入股份占比"></label><label><span class="field-label">联系电话</span><input type="text" class="field-input" placeholder="请输入联系电话"></label></div><div class="grid grid-cols-1 sm:grid-cols-3 gap-x-4 gap-y-2.5 mb-2.5"><label><span class="field-label">身份证号码</span><input type="text" class="field-input" placeholder="请输入身份证号码"></label><label><span class="field-label">注册资本（万）</span><input type="text" class="field-input" placeholder="请输入注册资本"></label><label><span class="field-label">注册地址</span><input type="text" class="field-input" placeholder="需要和产证、租赁合同地址一致"></label></div><label class="block mb-2.5"><span class="field-label">经营范围</span><textarea class="field-textarea" rows="3" placeholder="请输入经营范围"></textarea></label><div class="mt-4 grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-x-3 gap-y-3 text-xs"><div><p class="mb-1 text-slate-600">法人身份证</p><div class="upload-card" role="button" tabindex="0"><i class="fa-solid fa-circle-plus text-lg"></i><span>上传身份证正面</span></div></div><div><p class="mb-1 text-slate-600 invisible sm:visible">&nbsp;</p><div class="upload-card" role="button" tabindex="0"><i class="fa-solid fa-circle-plus text-lg"></i><span>上传身份证反面</span></div></div><div><p class="mb-1 text-slate-600">营业执照（营业执照照片）</p><div class="upload-card" role="button" tabindex="0"><i class="fa-solid fa-circle-plus text-lg"></i><span>上传营业执照</span></div></div><div class="col-span-2 sm:col-span-1 lg:col-span-1"><p class="mb-1 text-slate-600">其他附件（图片） <span class="text-slate-400 font-normal">支持jpg、png图片格式上传</span></p><div class="w-full max-w-[120px] upload-card" role="button" tabindex="0"><i class="fa-solid fa-circle-plus text-lg"></i><span>上传图片</span></div></div><div class="col-span-2 sm:col-span-1 lg:col-span-1"><p class="mb-1 text-slate-600">其他附件（文件） <span class="text-slate-400 font-normal">支持pdf文档上传</span></p><div class="w-full max-w-[120px] upload-card" role="button" tabindex="0"><i class="fa-solid fa-circle-plus text-lg"></i><span>上传文件</span></div></div></div></div></div>
+          <div id="supp-panel-industry" class="hidden">
+            <div class="mb-3 flex items-center gap-2 border-b border-slate-200 bg-slate-50 px-3 py-2 text-sm font-medium text-slate-800"><span class="h-4 w-1 rounded-sm bg-blue-600"></span>工商信息</div>
+            <div class="text-sm" id="supp-ic-form">
+              <p class="mb-4 text-xs text-slate-500 leading-relaxed">上传说明：材料压缩包内需包含1份工商登记表，法人身份证正反面和法人手写签名拍照、全体自然人股东身份证正反面+手写签名拍照、监事身份证正反面+手写签名拍照、财务负责人身份证正反面、房产证原件照片、租赁合同、住所承诺书</p>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-4 mb-5">
+                <div>
+                  <span class="field-label">税务注销情况</span>
+                  <div class="entity-type-box">
+                    <label><input type="radio" name="supp-tax-cancel-status" value="done" checked> 已完成</label>
+                    <label><input type="radio" name="supp-tax-cancel-status" value="pending"> 未完成</label>
+                  </div>
+                </div>
+                <div>
+                  <span class="field-label">是否自有代账客户</span>
+                  <div class="entity-type-box">
+                    <label><input type="radio" name="supp-own-accounting" value="yes"> 是</label>
+                    <label><input type="radio" name="supp-own-accounting" value="no" checked> 否</label>
+                  </div>
+                </div>
+                <div>
+                  <span class="field-label">申报情况</span>
+                  <div class="entity-type-box">
+                    <label><input type="radio" name="supp-declaration-status" value="zero"> 零报</label>
+                    <label><input type="radio" name="supp-declaration-status" value="nonzero" checked> 非零报</label>
+                  </div>
+                </div>
+                <div>
+                  <span class="field-label">个体户征收方式</span>
+                  <div class="entity-type-box">
+                    <label><input type="radio" name="supp-individual-tax-method" value="approved"> 核定</label>
+                    <label><input type="radio" name="supp-individual-tax-method" value="audit" checked> 查账征收</label>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <p class="field-label mb-2">附件上传</p>
+                <label class="supp-ic-upload-zone block rounded border border-dashed border-slate-300 bg-slate-50 p-6 text-center text-slate-500 cursor-pointer hover:border-blue-300 hover:bg-blue-50/40 transition-colors">
+                  <input type="file" id="supp-ic-attachments" class="hidden" accept=".zip,.rar,.7z,.jpg,.jpeg,.png,.gif,.webp" multiple>
+                  <i class="fa-solid fa-cloud-arrow-up text-2xl mb-2 text-slate-400"></i>
+                  <span class="block text-sm text-slate-600">点击上传压缩包或多个图片</span>
+                  <span class="mt-1 block text-xs text-slate-400">支持 zip、rar 压缩包及 jpg、png 等图片格式，可多选</span>
+                </label>
+                <ul id="supp-ic-file-list" class="mt-3 space-y-1.5 hidden"></ul>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="sticky bottom-0 flex justify-center gap-3 border-t border-slate-100 bg-white px-6 py-4">
           <button type="button" id="btn-supplement-ok" class="h-9 px-8 rounded-md bg-blue-600 text-sm font-medium text-white hover:bg-blue-700 cursor-pointer">确认</button>

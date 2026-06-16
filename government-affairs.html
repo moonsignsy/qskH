@@ -285,6 +285,14 @@
     .profile-dl dt { font-size: 0.75rem; color: #94a3b8; margin-bottom: 0.125rem; }
     .profile-dl dd { font-size: 0.8125rem; color: #1e293b; margin: 0; }
     .attach-tile { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 4.5rem; border: 1px dashed #cbd5e1; border-radius: 0.5rem; background: #f8fafc; color: #64748b; font-size: 0.75rem; }
+    .material-pack-section { padding: 0.75rem 1rem; border-top: 1px solid #f1f5f9; }
+    .material-pack-section:first-of-type { border-top: none; }
+    .material-pack-section-hd { font-size: 0.75rem; font-weight: 600; color: #475569; margin-bottom: 0.5rem; }
+    .material-pack-note { font-size: 0.8125rem; color: #475569; line-height: 1.6; padding: 0.75rem; border-radius: 0.5rem; background: #f8fafc; border: 1px solid #e2e8f0; }
+    .material-pack-img { aspect-ratio: 4/3; border-radius: 0.5rem; border: 1px solid #e2e8f0; background: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; color: #64748b; font-size: 0.6875rem; text-align: center; padding: 0.5rem; overflow: hidden; }
+    .material-pack-img i { font-size: 1.25rem; margin-bottom: 0.375rem; color: #94a3b8; }
+    .material-pack-img.is-file { background: linear-gradient(135deg, #f1f5f9 0%, #f8fafc 100%); }
+    .material-pack-img span { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-all; }
     #modal-material-confirm .material-footer-mode { display: none; }
     #modal-material-confirm .material-footer-mode.is-active { display: block; }
   </style>
@@ -1110,98 +1118,100 @@
 
       var govProfileDataMap = {
         'gov-1': {
-          ic: {
-            企业名称: '苏州九川数字科技有限公司',
-            法定代表人: '李川',
-            股份占比: '100%',
-            联系电话: '1381620733',
-            法人身份证号码: '51060398708042221',
-            内部财务: '李川',
-            联系电话2: '1381620733',
-            身份证号码2: '51060398708042221',
-            注册资本: '10万',
-            注册地址: '挂靠苏州园区'
-          },
-          scope: '这是经营范围。这是经营范围。这是经营范围。这是经营范围。这是经营范围。这是经营范围。这是经营范围。这是经营范围。这是经营范围。这是经营范围。'
+          packageNote: '材料压缩包内需包含1份工商登记表，法人身份证正反面和法人手写签名拍照、全体自然人股东身份证正反面+手写签名拍照、监事身份证正反面+手写签名拍照、财务负责人身份证正反面、房产证原件照片、租赁合同、住所承诺书',
+          formFields: [
+            { label: '税务注销情况', value: '已完成' },
+            { label: '是否自有代账客户', value: '是' },
+            { label: '申报情况', value: '零报' },
+            { label: '个体户征收方式', value: '核定' }
+          ],
+          files: [
+            { name: '工商登记表.pdf', type: 'file' },
+            { name: '法人身份证正面.jpg', type: 'image' },
+            { name: '法人身份证反面.jpg', type: 'image' },
+            { name: '股东身份证及签名.zip', type: 'archive' },
+            { name: '租赁合同.jpg', type: 'image' },
+            { name: '住所承诺书.jpg', type: 'image' }
+          ]
         },
         'gov-2': {
-          ic: {
-            企业名称: '苏州维尔因科技有限公司',
-            法定代表人: '李某',
-            股份占比: '60%',
-            联系电话: '0512-66660002',
-            身份证号码: '3205**********9012',
-            内部财务: '王会计',
-            联系电话2: '13700002222',
-            身份证号码2: '3205**********3456',
-            注册资本: '200万元',
-            注册地址: '苏州市吴中区开发区塔韵路188号'
-          },
-          scope: '软件开发；电子产品销售；技术咨询与服务；货物及技术进出口。'
+          packageNote: '需提供营业执照正副本扫描件、法人身份证正反面、经营场所证明材料及地址异常说明函。',
+          formFields: [
+            { label: '营业执照正副本', value: '复印件' },
+            { label: '法人身份证', value: '已上传正反面' }
+          ],
+          files: [
+            { name: '营业执照正本.jpg', type: 'image' },
+            { name: '营业执照副本.jpg', type: 'image' },
+            { name: '法人身份证正面.jpg', type: 'image' },
+            { name: '地址异常说明.pdf', type: 'file' }
+          ]
         },
         'gov-3': {
-          ic: {
-            企业名称: '苏州美的信息科技有限公司',
-            法定代表人: '周某',
-            股份占比: '100%',
-            联系电话: '0512-77770003',
-            身份证号码: '3205**********7788',
-            内部财务: '—',
-            联系电话2: '—',
-            身份证号码2: '—',
-            注册资本: '1000万元',
-            注册地址: '苏州市昆山市前进东路888号'
-          },
-          scope: '信息技术服务；数据处理与存储；云计算设备销售；信息系统集成。'
+          packageNote: '变更申请书、股东会决议、章程修正案及全体股东签字页扫描件。',
+          formFields: [
+            { label: '变更申请书', value: '已盖章' },
+            { label: '股东会决议', value: '有' }
+          ],
+          files: [
+            { name: '变更申请书.pdf', type: 'file' },
+            { name: '股东会决议.jpg', type: 'image' },
+            { name: '章程修正案.pdf', type: 'file' }
+          ]
         },
         'gov-4': {
-          ic: {
-            企业名称: '昆山示例贸易有限公司',
-            法定代表人: '陈某',
-            股份占比: '100%',
-            联系电话: '0512-55550004',
-            身份证号码: '3205**********4466',
-            内部财务: '赵会计',
-            联系电话2: '13600003333',
-            身份证号码2: '3205**********8899',
-            注册资本: '300万元',
-            注册地址: '苏州市昆山市花桥镇绿地大道1000号'
-          },
-          scope: '日用百货、五金交电、机械设备及配件销售；商务信息咨询。'
+          packageNote: '贸易类变更需附进出口相关资质及最新章程。',
+          formFields: [
+            { label: '变更事项', value: '经营范围变更' }
+          ],
+          files: [
+            { name: '营业执照.jpg', type: 'image' },
+            { name: '变更材料包.zip', type: 'archive' }
+          ]
         }
       };
 
+      function renderMaterialFileTile(file) {
+        var isImage = file.type === 'image';
+        var isArchive = file.type === 'archive';
+        var icon = isImage ? 'fa-regular fa-image' : (isArchive ? 'fa-regular fa-file-zipper' : 'fa-regular fa-file-lines');
+        var cls = isImage ? 'material-pack-img' : 'material-pack-img is-file';
+        return '<div class="' + cls + '"><i class="fa-solid ' + icon + '"></i><span>' + file.name + '</span></div>';
+      }
+
       function renderMaterialProfilePreview(govId) {
         if (!materialPreviewWrap) return;
-        var profile = govProfileDataMap[govId] || govProfileDataMap['gov-2'];
-        var ic = profile.ic || {};
-        var scope = profile.scope || '—';
-        var idNo = ic.法人身份证号码 || ic.身份证号码 || '—';
-        var phone2 = ic.联系电话2 || '—';
-        var idNo2 = ic.身份证号码2 || '—';
-        var icHtml =
-          '<div class="full"><dt>企业名称</dt><dd class="font-medium">' + (ic.企业名称 || '—') + '</dd></div>' +
-          '<div><dt>法定代表人</dt><dd>' + (ic.法定代表人 || '—') + '</dd></div>' +
-          '<div><dt>联系电话</dt><dd>' + (ic.联系电话 || '—') + '</dd></div>' +
-          '<div><dt>股份占比</dt><dd>' + (ic.股份占比 || '—') + '</dd></div>' +
-          '<div><dt>身份证号码</dt><dd>' + idNo + '</dd></div>' +
-          '<div><dt>内部财务</dt><dd>' + (ic.内部财务 || '—') + '</dd></div>' +
-          '<div><dt>财务联系电话</dt><dd>' + phone2 + '</dd></div>' +
-          '<div><dt>财务身份证号</dt><dd>' + idNo2 + '</dd></div>' +
-          '<div><dt>注册资本</dt><dd>' + (ic.注册资本 || '—') + '</dd></div>' +
-          '<div><dt>注册地址</dt><dd>' + (ic.注册地址 || '—') + '</dd></div>' +
-          '<div class="full"><dt>经营范围</dt><dd class="leading-relaxed rounded-lg border border-slate-100 bg-slate-50/80 p-3 mt-0.5">' + scope + '</dd></div>';
+        var pack = govProfileDataMap[govId] || govProfileDataMap['gov-2'];
+        var packageNote = pack.packageNote || '—';
+        var formFields = pack.formFields || [];
+        var files = pack.files || [];
+
+        var formHtml = formFields.length
+          ? formFields.map(function (f) {
+            return '<div><dt>' + f.label + '</dt><dd>' + f.value + '</dd></div>';
+          }).join('')
+          : '<div class="full"><dd class="text-slate-400">暂无表单信息</dd></div>';
+
+        var filesHtml = files.length
+          ? files.map(renderMaterialFileTile).join('')
+          : '<div class="col-span-full text-center text-xs text-slate-400 py-4">暂无图片或附件</div>';
+
         materialPreviewWrap.innerHTML =
           '<div class="profile-block">' +
-          '  <div class="profile-block-hd"><i class="fa-solid fa-building"></i><h4 class="text-sm font-semibold text-slate-800">工商信息</h4></div>' +
-          '  <dl class="profile-dl">' + icHtml + '</dl>' +
-          '</div>' +
-          '<div class="profile-block">' +
-          '  <div class="profile-block-hd"><i class="fa-regular fa-images"></i><h4 class="text-sm font-semibold text-slate-800">附件资料</h4><span class="ml-auto text-xs text-slate-400">共 3 项</span></div>' +
-          '  <div class="p-4 grid grid-cols-2 sm:grid-cols-3 gap-3">' +
-          '    <div class="attach-tile"><i class="fa-regular fa-id-card mb-2 text-xl"></i>身份证</div>' +
-          '    <div class="attach-tile"><i class="fa-regular fa-file-image mb-2 text-xl"></i>营业执照</div>' +
-          '    <div class="attach-tile"><i class="fa-regular fa-folder mb-2 text-xl"></i>其他附件</div>' +
+          '  <div class="profile-block-hd"><i class="fa-solid fa-box-open"></i><h4 class="text-sm font-semibold text-slate-800">材料包预览</h4><span class="ml-auto text-xs text-slate-400">共 ' + files.length + ' 项附件</span></div>' +
+          '  <div class="material-pack-section">' +
+          '    <div class="material-pack-section-hd">材料包说明</div>' +
+          '    <div class="material-pack-note">' + packageNote + '</div>' +
+          '  </div>' +
+          (formFields.length ? (
+          '  <div class="material-pack-section">' +
+          '    <div class="material-pack-section-hd">表单信息</div>' +
+          '    <dl class="profile-dl !pt-0 !px-0 !pb-0">' + formHtml + '</dl>' +
+          '  </div>'
+          ) : '') +
+          '  <div class="material-pack-section">' +
+          '    <div class="material-pack-section-hd">图片与附件</div>' +
+          '    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">' + filesHtml + '</div>' +
           '  </div>' +
           '</div>';
       }

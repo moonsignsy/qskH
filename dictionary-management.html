@@ -198,12 +198,19 @@
             <label class="text-right text-slate-600" for="gov-biz-name">业务名称 <span class="text-red-500">*</span></label>
             <input type="text" id="gov-biz-name" class="h-9 rounded-md border border-slate-200 px-3" placeholder="请输入业务类型名称，如：开税" required>
           </div>
+          <div class="grid grid-cols-[108px_1fr] items-start gap-3">
+            <label class="text-right text-slate-600 pt-2" for="gov-biz-package-note">材料包说明</label>
+            <div>
+              <textarea id="gov-biz-package-note" rows="3" maxlength="500" class="w-full rounded-md border border-slate-200 px-3 py-2 resize-none" placeholder="请输入材料包说明，如压缩包内需包含的材料清单"></textarea>
+              <p class="mt-1 text-xs text-slate-400 text-right"><span id="gov-biz-package-note-count">0</span>/500</p>
+            </div>
+          </div>
           <div>
             <div class="flex items-center justify-between mb-2">
-              <span class="text-slate-700 font-medium">所需资料清单配置 <span class="text-red-500">*</span></span>
+              <span class="text-slate-700 font-medium">其他所需信息</span>
               <button type="button" id="btn-gov-add-checklist-item" class="h-8 px-3 rounded-md border border-blue-200 bg-blue-50 text-blue-600 text-xs hover:bg-blue-100 cursor-pointer"><i class="fa-solid fa-plus mr-1"></i>添加资料项</button>
             </div>
-            <p class="text-xs text-slate-500 mb-3">每项填写资料名称及可选值说明，例如：税务注销情况 — 已完成 / 未完成（或者有/无《清税证明》）</p>
+            <p class="text-xs text-slate-500 mb-3">选填。每项填写资料名称及可选值说明，例如：税务注销情况 — 已完成 / 未完成（或者有/无《清税证明》）</p>
             <div id="gov-checklist-wrap" class="space-y-2"></div>
           </div>
         </div>
@@ -247,6 +254,8 @@
       var govBizForm = document.getElementById('gov-business-form');
       var govBizTitle = document.getElementById('gov-business-modal-title');
       var govBizNameInput = document.getElementById('gov-biz-name');
+      var govBizPackageNoteInput = document.getElementById('gov-biz-package-note');
+      var govBizPackageNoteCount = document.getElementById('gov-biz-package-note-count');
       var govChecklistWrap = document.getElementById('gov-checklist-wrap');
       var govFilterType = null;
       var govEditingId = null;
@@ -256,6 +265,7 @@
         {
           id: 'gov-biz-1',
           type: '开税',
+          packageNote: '材料压缩包内需包含1份工商登记表，法人身份证正反面和法人手写签名拍照、全体自然人股东身份证正反面+手写签名拍照、监事身份证正反面+手写签名拍照、财务负责人身份证正反面、房产证原件照片、租赁合同、住所承诺书',
           materials: [
             { name: '税务注销情况', options: '已完成 / 未完成（或者有/无《清税证明》）' },
             { name: '客户类型', options: '自有代账客户 / 外接客户' },
@@ -268,6 +278,7 @@
         {
           id: 'gov-biz-2',
           type: '解除地址异常',
+          packageNote: '需提供营业执照正副本扫描件、法人身份证正反面、经营场所证明材料及地址异常说明函。',
           materials: [
             { name: '营业执照正副本', options: '原件 / 复印件' },
             { name: '法人身份证', options: '正反面扫描件' }
@@ -278,6 +289,7 @@
         {
           id: 'gov-biz-3',
           type: '工商变更',
+          packageNote: '变更申请书、股东会决议、章程修正案及全体股东签字页扫描件。',
           materials: [
             { name: '变更申请书', options: '已盖章 / 未盖章' },
             { name: '股东会决议', options: '有 / 无' }
@@ -358,6 +370,15 @@
           .replace(/"/g, '&quot;');
       }
 
+      function formatPackageNote(note) {
+        if (!note || !String(note).trim()) return '<span class="text-slate-400">—</span>';
+        var text = String(note).trim();
+        if (text.length > 80) {
+          return '<span class="text-slate-600 line-clamp-2" title="' + escapeHtml(text) + '">' + escapeHtml(text) + '</span>';
+        }
+        return '<span class="text-slate-600">' + escapeHtml(text) + '</span>';
+      }
+
       function formatMaterialsSummary(materials) {
         if (!materials || !materials.length) return '<span class="text-slate-400">—</span>';
         return '<ol class="gov-material-summary list-decimal list-inside max-w-xl">' +
@@ -401,6 +422,7 @@
             return '<tr class="hover:bg-slate-50" data-gov-id="' + escapeHtml(row.id) + '">' +
               '<td class="px-3 py-3 border-b border-slate-100 font-medium text-slate-800 whitespace-nowrap">' + escapeHtml(row.type) + '</td>' +
               '<td class="px-3 py-3 border-b border-slate-100">' + formatMaterialsSummary(row.materials) + '</td>' +
+              '<td class="px-3 py-3 border-b border-slate-100 max-w-xs">' + formatPackageNote(row.packageNote) + '</td>' +
               '<td class="px-3 py-3 border-b border-slate-100 whitespace-nowrap">' + escapeHtml(row.createdAt) + '</td>' +
               '<td class="px-3 py-3 border-b border-slate-100 whitespace-nowrap">' + escapeHtml(row.creator) + '</td>' +
               '<td class="px-3 py-3 border-b border-slate-100 whitespace-nowrap">' +
@@ -408,11 +430,12 @@
               '<button type="button" class="text-blue-600 hover:underline js-dict-delete" data-gov-id="' + escapeHtml(row.id) + '">删除</button>' +
               '</td></tr>';
           }).join('')
-          : '<tr><td colspan="5" class="px-3 py-8 text-center text-slate-400">暂无数据</td></tr>';
+          : '<tr><td colspan="6" class="px-3 py-8 text-center text-slate-400">暂无数据</td></tr>';
         return renderGovMaterialToolbar() +
-          '<table class="w-full min-w-[960px] text-sm"><thead class="bg-slate-50 text-slate-600"><tr>' +
+          '<table class="w-full min-w-[1100px] text-sm"><thead class="bg-slate-50 text-slate-600"><tr>' +
           '<th class="text-left px-3 py-3 border-b border-slate-200 font-medium whitespace-nowrap">业务类型</th>' +
           '<th class="text-left px-3 py-3 border-b border-slate-200 font-medium">所需资料清单</th>' +
+          '<th class="text-left px-3 py-3 border-b border-slate-200 font-medium">材料包说明</th>' +
           '<th class="text-left px-3 py-3 border-b border-slate-200 font-medium whitespace-nowrap">创建时间</th>' +
           '<th class="text-left px-3 py-3 border-b border-slate-200 font-medium whitespace-nowrap">创建人</th>' +
           '<th class="text-left px-3 py-3 border-b border-slate-200 font-medium whitespace-nowrap">操作</th>' +
@@ -482,10 +505,6 @@
           '<textarea rows="2" class="gov-checklist-options rounded-md border border-slate-200 px-3 py-2 w-full resize-none" placeholder="选项配置，如：已完成 / 未完成（或者有/无《清税证明》）">' + escapeHtml(item && item.options ? item.options : '') + '</textarea>' +
           '</div>';
         wrap.querySelector('.js-remove-checklist-item').addEventListener('click', function () {
-          if (govChecklistWrap.children.length <= 1) {
-            showToast('至少保留一项资料配置');
-            return;
-          }
           wrap.remove();
           reindexChecklistItems();
         });
@@ -528,6 +547,11 @@
         return items;
       }
 
+      function updatePackageNoteCount() {
+        if (!govBizPackageNoteCount || !govBizPackageNoteInput) return;
+        govBizPackageNoteCount.textContent = String(govBizPackageNoteInput.value.length);
+      }
+
       function openGovBusinessModal(mode, row) {
         govEditingId = mode === 'edit' && row ? row.id : null;
         govBizTitle.textContent = mode === 'edit' ? '编辑业务' : '新增业务';
@@ -535,9 +559,11 @@
           govBizNameInput.value = row ? row.type : '';
           govBizNameInput.readOnly = false;
         }
-        var items = row && row.materials && row.materials.length
-          ? row.materials
-          : getDefaultChecklistItems();
+        if (govBizPackageNoteInput) {
+          govBizPackageNoteInput.value = row && row.packageNote ? row.packageNote : '';
+          updatePackageNoteCount();
+        }
+        var items = row && row.materials ? row.materials : [];
         renderChecklistItems(items);
         govBizModal.classList.remove('hidden');
         govBizModal.classList.add('flex');
@@ -721,6 +747,10 @@
         govChecklistWrap.appendChild(createChecklistItemEl({ name: '', options: '' }, count));
       });
 
+      if (govBizPackageNoteInput) {
+        govBizPackageNoteInput.addEventListener('input', updatePackageNoteCount);
+      }
+
       if (govBizModal) {
         govBizModal.querySelectorAll('[data-close-gov-business]').forEach(function (el) {
           el.addEventListener('click', closeGovBusinessModal);
@@ -734,12 +764,13 @@
             showToast('请填写业务名称');
             return;
           }
-          var materials = collectChecklistFromForm();
-          if (!materials.length) {
-            showToast('请配置至少一项所需资料');
+          var packageNote = govBizPackageNoteInput ? govBizPackageNoteInput.value.trim() : '';
+          if (packageNote.length > 500) {
+            showToast('材料包说明不能超过500字');
             return;
           }
-          var invalid = materials.some(function (m) { return !m.name || !m.options; });
+          var materials = collectChecklistFromForm();
+          var invalid = materials.some(function (m) { return (m.name && !m.options) || (!m.name && m.options); });
           if (invalid) {
             showToast('请完善每项资料的名称与选项配置');
             return;
@@ -748,6 +779,7 @@
             var existing = govBusinessRows.find(function (r) { return r.id === govEditingId; });
             if (existing) {
               existing.type = name;
+              existing.packageNote = packageNote;
               existing.materials = materials;
             }
             showToast('保存成功');
@@ -755,6 +787,7 @@
             govBusinessRows.unshift({
               id: 'gov-biz-' + Date.now(),
               type: name,
+              packageNote: packageNote,
               materials: materials,
               createdAt: new Date().toISOString().slice(0, 19).replace('T', ' '),
               creator: '祝哥'
