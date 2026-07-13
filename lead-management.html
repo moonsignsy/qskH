@@ -53,6 +53,10 @@
         gap: 0.5rem;
       }
     }
+    .lead-time-filter.is-custom {
+      max-width: none;
+      flex: 1 1 18rem;
+    }
   </style>
 </head>
 <body class="bg-[#f5f7fa] text-slate-700">
@@ -187,22 +191,39 @@
                 <label class="block text-xs text-slate-500 mb-1">来源渠道</label>
                 <button type="button" class="w-full h-9 px-3 rounded-md border border-slate-200 bg-white text-sm text-slate-600 flex items-center justify-between gap-1">请选择<i class="fa-solid fa-angle-down text-[10px] text-slate-400 shrink-0"></i></button>
               </div>
-              <div class="min-w-0 flex-1 max-w-[10.5rem] basis-[9rem]">
+              <div class="min-w-0 flex-1 max-w-[10.5rem] basis-[9rem] lead-time-filter">
                 <label class="block text-xs text-slate-500 mb-1">创建时间</label>
                 <div class="relative">
-                  <select class="w-full h-9 pl-3 pr-8 rounded-md border border-slate-200 bg-white text-sm text-slate-600 appearance-none">
+                  <select id="filter-create-time" class="lead-time-preset w-full h-9 pl-3 pr-8 rounded-md border border-slate-200 bg-white text-sm text-slate-600 appearance-none">
                     <option value="">请选择</option>
-                    <option>本周</option>
-                    <option>本月</option>
-                    <option>上月</option>
-                    <option>更早</option>
+                    <option value="week">本周</option>
+                    <option value="month">本月</option>
+                    <option value="custom">自定义</option>
                   </select>
                   <i class="fa-solid fa-angle-down absolute right-3 top-1/2 -translate-y-1/2 text-[10px] text-slate-400 pointer-events-none"></i>
                 </div>
+                <div id="filter-create-time-custom" class="lead-time-custom hidden mt-1.5 flex items-center gap-1">
+                  <input type="date" class="h-9 flex-1 min-w-0 rounded-md border border-slate-200 px-2 text-sm text-slate-600">
+                  <span class="text-slate-400 text-xs shrink-0">至</span>
+                  <input type="date" class="h-9 flex-1 min-w-0 rounded-md border border-slate-200 px-2 text-sm text-slate-600">
+                </div>
               </div>
-              <div class="min-w-0 flex-1 max-w-[10.5rem] basis-[9rem]">
+              <div class="min-w-0 flex-1 max-w-[10.5rem] basis-[9rem] lead-time-filter">
                 <label class="block text-xs text-slate-500 mb-1">下次跟进</label>
-                <input type="date" id="filter-next-follow" class="w-full h-9 px-3 rounded-md border border-slate-200 bg-white text-sm text-slate-600">
+                <div class="relative">
+                  <select id="filter-next-follow" class="lead-time-preset w-full h-9 pl-3 pr-8 rounded-md border border-slate-200 bg-white text-sm text-slate-600 appearance-none">
+                    <option value="">请选择</option>
+                    <option value="week">本周</option>
+                    <option value="month">本月</option>
+                    <option value="custom">自定义</option>
+                  </select>
+                  <i class="fa-solid fa-angle-down absolute right-3 top-1/2 -translate-y-1/2 text-[10px] text-slate-400 pointer-events-none"></i>
+                </div>
+                <div id="filter-next-follow-custom" class="lead-time-custom hidden mt-1.5 flex items-center gap-1">
+                  <input type="date" class="h-9 flex-1 min-w-0 rounded-md border border-slate-200 px-2 text-sm text-slate-600">
+                  <span class="text-slate-400 text-xs shrink-0">至</span>
+                  <input type="date" class="h-9 flex-1 min-w-0 rounded-md border border-slate-200 px-2 text-sm text-slate-600">
+                </div>
               </div>
               <button type="button" class="shrink-0 h-9 px-5 rounded bg-blue-600 text-white text-sm hover:bg-blue-700">查询</button>
               <button type="button" class="shrink-0 h-9 px-5 rounded-md border border-slate-200 hover:bg-slate-50 cursor-pointer bg-white text-sm text-slate-600 hover:bg-slate-50">重置</button>
@@ -1700,6 +1721,18 @@
       });
       updateTabCounts();
       applyTab('following');
+
+      document.querySelectorAll('.lead-time-preset').forEach(function (sel) {
+        var wrap = sel.closest('.lead-time-filter');
+        var customWrap = wrap ? wrap.querySelector('.lead-time-custom') : null;
+        function syncCustom() {
+          var isCustom = sel.value === 'custom';
+          if (customWrap) customWrap.classList.toggle('hidden', !isCustom);
+          if (wrap) wrap.classList.toggle('is-custom', isCustom);
+        }
+        sel.addEventListener('change', syncCustom);
+        syncCustom();
+      });
 
       document.addEventListener('keydown', function (e) {
         if (e.key !== 'Escape') return;
