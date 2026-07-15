@@ -120,7 +120,7 @@
             <!-- 左侧：跟进进度条 -->
             <div class="p-5 lg:border-r border-slate-200 overflow-y-auto">
               <h3 class="text-base font-semibold text-slate-800 mb-1">跟进进度</h3>
-              <p class="text-xs text-slate-400 mb-5">按时间顺序展示线索关键节点</p>
+              <p class="text-xs text-slate-400 mb-5">按时间倒序展示线索关键节点，最新跟进在最上方</p>
               <div id="timeline" class="space-y-0"></div>
             </div>
 
@@ -166,7 +166,7 @@
 
   <script>
     (function () {
-      var order = ['lead-1', 'lead-6', 'lead-2', 'lead-3', 'lead-5', 'lead-4', 'lead-7'];
+      var order = ['lead-1', 'lead-6', 'lead-2', 'lead-3', 'lead-5', 'lead-4', 'lead-7', 'lead-8'];
 
       var dataMap = {
         'lead-1': {
@@ -233,6 +233,16 @@
             { type: 'first-follow', valid: true, content: '客户有注册地址及代账打包需求，意向明确。', time: '2026-03-20 11:00' },
             { type: 'follow', content: '完成需求确认与方案讲解，客户同意转商机推进。', time: '2026-04-02 14:20' },
             { type: 'convert-opp', time: '2026-04-03 09:30' }
+          ]
+        },
+        'lead-8': {
+          status: '已转商机', statusCls: 'bg-blue-50 text-blue-700',
+          info: { 客户姓名: '周婷', 手机号码: '13511223344', 添加微信: '是', 所属区域: '苏州/吴中区', 行业类别: '电子商务', 企业类型: '小规模纳税人', 来源渠道: '抖音', 销售顾问: '周方林' },
+          steps: [
+            { type: 'create', creator: '陆琴', time: '2026-04-08 09:45', valid: true, content: '客户经营电商店铺，咨询小规模代账及注册地址挂靠。' },
+            { type: 'first-follow', valid: true, content: '客户经营电商店铺，咨询小规模代账及注册地址挂靠。', time: '2026-04-09 10:30' },
+            { type: 'follow', content: '已出具代账加注册地址打包报价，客户表示认可。', time: '2026-04-14 16:20' },
+            { type: 'convert-opp', time: '2026-04-15 09:10' }
           ]
         }
       };
@@ -306,6 +316,7 @@
       }
 
       function renderTimeline(steps) {
+        steps = steps.slice().reverse();
         return steps.map(function (step, i) {
           var isLast = i === steps.length - 1;
           return '<div class="timeline-step relative pl-12 pb-10' + (isLast ? ' last:pb-0' : '') + '">' +

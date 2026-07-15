@@ -440,6 +440,23 @@
                   <td class="px-2 py-2.5 align-middle"><a href="lead-follow-detail.html?id=lead-7" class="text-blue-600 hover:underline">查看详情</a></td>
                   <td class="px-2 py-2.5 align-middle whitespace-nowrap text-slate-400">--</td>
                 </tr>
+                <tr class="lead-row hover:bg-slate-50 border-b border-slate-100" data-tab-cat="converted">
+                  <td class="px-2 py-2.5 align-middle text-center"><input type="checkbox" class="rounded border-slate-300"></td>
+                  <td class="px-2 py-2.5 align-middle">周婷</td>
+                  <td class="px-2 py-2.5 align-middle">13511223344</td>
+                  <td class="px-2 py-2.5 align-middle">苏州/吴中区</td>
+                  <td class="px-2 py-2.5 align-middle">电子商务</td>
+                  <td class="px-2 py-2.5 align-middle">小规模纳税人</td>
+                  <td class="px-2 py-2.5 align-middle">抖音</td>
+                  <td class="px-2 py-2.5 align-middle whitespace-nowrap">是</td>
+                  <td class="px-2 py-2.5 align-middle whitespace-nowrap"><span class="text-emerald-600 font-medium">有效</span></td>
+                  <td class="px-2 py-2.5 align-middle whitespace-nowrap">2026-04-08 09:45</td>
+                  <td class="px-2 py-2.5 align-middle">周方林</td>
+                  <td class="px-2 py-2.5 align-middle whitespace-nowrap">2026-04-14 16:20</td>
+                  <td class="px-2 py-2.5 align-middle text-slate-400 lead-col-extra">--</td>
+                  <td class="px-2 py-2.5 align-middle"><a href="lead-follow-detail.html?id=lead-8" class="text-blue-600 hover:underline">查看详情</a></td>
+                  <td class="px-2 py-2.5 align-middle whitespace-nowrap"><button type="button" class="text-blue-600 hover:underline js-view-quote">查看报价</button></td>
+                </tr>
               </tbody>
             </table>
           </div>
@@ -1224,6 +1241,22 @@
       });
       document.querySelectorAll('.js-quote').forEach(function (btn) {
         btn.addEventListener('click', function () { openQuoteModal(); });
+      });
+      document.querySelectorAll('.js-view-quote').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          lastQuotePreviewData = {
+            owner: '周方林',
+            validity: '7',
+            customer: '周婷 13511223344\n苏州/吴中区 · 电子商务 · 小规模纳税人',
+            note: '以上报价含全年账务处理及纳税申报，报价有效期内签约可享开票员免费培训一次。',
+            services: [
+              { title: '代理记账', rows: [['代账套餐', '小规模A · 800元/年'], ['合同时长', '一年'], ['赠送月份', '1个月'], ['优惠减免', '否']] },
+              { title: '注册地址', rows: [['金额', '1200.00'], ['服务期限', '一年'], ['备注', '苏州工业园区挂靠地址']] }
+            ]
+          };
+          renderQuotePreview(lastQuotePreviewData);
+          showModal('quote-preview');
+        });
       });
 
       function openConvertOppModal(payload) {
