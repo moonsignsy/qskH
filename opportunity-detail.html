@@ -244,7 +244,7 @@
           stage: 'intent', stageKey: 'intent',
           info: { 客户姓名: '王经理', 手机号码: '18900008788', 所属区域: '昆山', 行业类别: '科技服务', 企业类型: '小规模纳税人', 商机阶段: '意向商机', 商机等级: 'S级' },
           note: '客户意向较强，待确认合同条款后推进签约。',
-          steps: baseSteps('陈丽').concat([{ type: 'pending-payment' }])
+          steps: [{ type: 'convert', sales: '陈丽', time: '2026-04-07 13:23' }].concat(baseSteps('陈丽').slice(1)).concat([{ type: 'pending-payment' }])
         },
         'opp-3': {
           stage: 'won', stageKey: 'won',
@@ -283,6 +283,10 @@
       }
 
       function renderStepBody(step) {
+        if (step.type === 'convert') {
+          return '<p class="text-sm font-medium text-slate-800">' + step.sales + '确认转商机</p>' +
+            '<p class="text-[13px] text-slate-400 mt-1">' + step.time + '</p>';
+        }
         if (step.type === 'quote') {
           return '<p class="text-sm font-medium text-slate-800">' + step.sales + '创建报价单</p>' +
             '<p class="mt-1"><button type="button" class="js-view-quote text-blue-600 hover:underline text-sm cursor-pointer">查看报价单</button></p>' +
