@@ -13,7 +13,8 @@
     body { font-family: "Microsoft YaHei", "PingFang SC", sans-serif; }
     #modal-follow:not(.hidden),
     #modal-supplement:not(.hidden),
-    #modal-payment-qrcode:not(.hidden) { display: flex; }
+    #modal-payment-qrcode:not(.hidden),
+    #modal-view-contract:not(.hidden) { display: flex; }
     .field-label { font-size: 12px; color: #334155; margin-bottom: 4px; display: block; }
     .field-input { height: 34px; width: 100%; border: 1px solid #e2e8f0; border-radius: 4px; padding: 0 10px; font-size: 12px; color: #0f172a; }
     .field-input::placeholder, .field-textarea::placeholder { color: #94a3b8; }
@@ -211,7 +212,7 @@
                   <td class="whitespace-nowrap">2024-03-21 15:03</td>
                   <td><a href="opportunity-detail.html?id=opp-1" class="text-blue-600 hover:text-blue-700 hover:underline">查看详情</a></td>
                   <td class="whitespace-nowrap">
-                    <a href="contract-management.html" class="text-blue-600 hover:text-blue-700 hover:underline">查看合同</a><span class="px-1 text-slate-300">|</span>
+                    <button type="button" class="js-view-contract text-blue-600 hover:text-blue-700 hover:underline cursor-pointer" data-contract-no="202607151016" data-party-a="苏州匠心膜界材料有限公司" data-amount="800.00" data-status="已签约未支付" data-signed-at="2026-07-15 22:58:27">查看合同</button><span class="px-1 text-slate-300">|</span>
                     <button type="button" class="js-send-payment-qr text-blue-600 hover:text-blue-700 hover:underline cursor-pointer" data-order-id="opp-1">发送收款码</button><span class="px-1 text-slate-300">|</span>
                     <button type="button" class="js-add-follow text-blue-600 hover:text-blue-700 hover:underline cursor-pointer" data-stage="intent">添加跟进</button>
                   </td>
@@ -573,7 +574,7 @@
       </div>
       <div class="px-6 py-5 space-y-4 text-sm">
         <div class="flex items-center gap-3">
-          <label class="w-24 shrink-0 text-right text-slate-600"><span class="text-red-500">*</span> 商机阶段</label>
+          <label class="w-28 shrink-0 text-right text-slate-600"><span class="text-red-500">*</span> 商机阶段</label>
           <div class="relative flex-1">
             <select id="follow-stage" class="w-full h-9 pl-3 pr-8 rounded-md border border-slate-200 bg-white appearance-none text-slate-700 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20">
               <option value="intent">意向商机</option>
@@ -583,21 +584,21 @@
           </div>
         </div>
         <div class="flex items-center gap-3">
-          <label class="w-24 shrink-0 text-right text-slate-600"><span class="text-red-500">*</span> 跟进时间</label>
+          <label class="w-28 shrink-0 text-right text-slate-600"><span class="text-red-500">*</span> 下次跟进时间</label>
           <div class="relative flex-1">
             <input type="text" value="2026-04-07 10:09" class="w-full h-9 px-3 pr-9 rounded-md border border-slate-200 text-slate-700 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20">
             <i class="fa-regular fa-calendar absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm pointer-events-none"></i>
           </div>
         </div>
         <div id="follow-content-wrap" class="flex items-start gap-3">
-          <label class="w-24 shrink-0 text-right text-slate-600 pt-2"><span class="text-red-500">*</span> 跟进内容</label>
+          <label class="w-28 shrink-0 text-right text-slate-600 pt-2"><span class="text-red-500">*</span> 跟进内容</label>
           <div class="relative flex-1">
             <textarea id="follow-content" maxlength="1000" rows="5" placeholder="请输入内容" class="w-full resize-y rounded-md border border-slate-200 px-3 py-2 pr-14 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"></textarea>
             <span class="absolute bottom-2 right-3 text-xs text-slate-400"><span id="follow-len">0</span>/1000</span>
           </div>
         </div>
         <div id="follow-lost-wrap" class="hidden flex items-start gap-3">
-          <label class="w-24 shrink-0 text-right text-slate-600 pt-2"><span class="text-red-500">*</span> 流失说明</label>
+          <label class="w-28 shrink-0 text-right text-slate-600 pt-2"><span class="text-red-500">*</span> 流失说明</label>
           <div class="relative flex-1">
             <textarea id="follow-lost-reason" maxlength="1000" rows="5" placeholder="请输入内容" class="w-full resize-y rounded-md border border-slate-200 px-3 py-2 pr-14 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"></textarea>
             <span class="absolute bottom-2 right-3 text-xs text-slate-400"><span id="follow-lost-len">0</span>/1000</span>
@@ -956,6 +957,10 @@
         if (paymentQrModal && !paymentQrModal.classList.contains('hidden')) closePaymentQrModal();
       });
     })();
+  </script>
+  <script src="./assets/view-contract-modal.js"></script>
+  <script>
+    window.mountViewContractModal({ openSelectors: ['.js-view-contract'] });
   </script>
   <script src="./assets/app-shell.js"></script>
 </body>
