@@ -166,7 +166,7 @@
 
   <script>
     (function () {
-      var order = ['lead-1', 'lead-6', 'lead-2', 'lead-3', 'lead-5', 'lead-4', 'lead-7', 'lead-8'];
+      var order = ['lead-1', 'lead-6', 'lead-2', 'lead-3', 'lead-5', 'lead-4', 'lead-9', 'lead-7', 'lead-8'];
 
       var dataMap = {
         'lead-1': {
@@ -221,8 +221,15 @@
           status: '无效', statusCls: 'bg-slate-100 text-slate-500',
           info: { 客户姓名: '赵敏', 手机号码: '13700113344', 添加微信: '是', 所属区域: '苏州/姑苏区', 行业类别: '商业贸易', 企业类型: '一般纳税人', 来源渠道: '抖音', 销售顾问: '周方林' },
           steps: [
-            { type: 'create', creator: '陆琴', time: '2026-04-10 08:40', valid: false, content: '空号无法联系，多次拨打均提示停机' },
+            { type: 'create', creator: '陆琴', time: '2026-04-10 08:40', valid: true, content: '客户正忙，约定下次联系' },
             { type: 'first-follow', valid: false, reason: '空号无法联系，多次拨打均提示停机', time: '2026-04-15 09:00' }
+          ]
+        },
+        'lead-9': {
+          status: '无效', statusCls: 'bg-slate-100 text-slate-500',
+          info: { 客户姓名: '吴芳', 手机号码: '13611224455', 添加微信: '否', 所属区域: '常州/武进区', 行业类别: '餐饮服务', 企业类型: '小规模纳税人', 来源渠道: '小红书', 销售顾问: '周方林' },
+          steps: [
+            { type: 'create', creator: '陆琴', time: '2026-04-12 14:25', valid: false, reason: '联系方式错误，非本人号码，确认无合作意向' }
           ]
         },
         'lead-7': {
@@ -259,7 +266,7 @@
         if (step.type === 'convert-opp') return '<span class="timeline-icon bg-blue-500 text-white"><i class="fa-solid fa-arrow-right-arrow-left text-[13px]"></i></span>';
         if (step.type === 'won') return '<span class="timeline-icon bg-emerald-500 text-white"><i class="fa-solid fa-check text-[16px]"></i></span>';
         if (step.type === 'abandon') return '<span class="timeline-icon bg-red-500 text-white"><i class="fa-solid fa-xmark text-[16px]"></i></span>';
-        if (step.type === 'first-follow' && step.valid === false) return '<span class="timeline-icon bg-slate-400 text-white"><i class="fa-solid fa-ban text-[14px]"></i></span>';
+        if ((step.type === 'first-follow' || step.type === 'create') && step.valid === false) return '<span class="timeline-icon bg-slate-400 text-white"><i class="fa-solid fa-ban text-[14px]"></i></span>';
         return '<span class="timeline-icon bg-emerald-500 text-white"><i class="fa-solid fa-check text-[16px]"></i></span>';
       }
 
@@ -271,7 +278,9 @@
           if (step.valid !== undefined) {
             html += '<p class="text-[13px] text-slate-600 mt-1">线索' + (step.valid ? '<span class="text-emerald-600 font-medium">有效</span>' : '<span class="text-slate-500 font-medium">无效</span>') + '</p>';
           }
-          if (step.content) {
+          if (step.valid === false && step.reason) {
+            html += '<p class="text-[13px] text-slate-600 mt-1">无效说明：<span class="text-slate-800">' + step.reason + '</span></p>';
+          } else if (step.content) {
             html += '<p class="text-[13px] text-slate-600 mt-1">跟进内容：<span class="text-slate-800">' + step.content + '</span></p>';
           }
           html += '<p class="text-[13px] text-slate-400 mt-0.5">' + step.time + '</p>';
