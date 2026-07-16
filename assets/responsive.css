@@ -43,8 +43,21 @@ main,
 .fixed.inset-0[role="dialog"]:not(.hidden),
 #order-detail-modal:not(.hidden),
 #quote-preview-modal:not(.hidden),
-#modal-create-contract:not(.hidden) {
+#modal-create-contract:not(.hidden),
+#modal-view-contract:not(.hidden) {
   z-index: 180 !important;
+}
+
+/* 查看合同弹窗：内部滚动，避免整面板被全局规则改成 overflow-y:auto */
+#modal-view-contract .vc-panel {
+  overflow: hidden !important;
+  max-width: min(100%, 1100px) !important;
+  max-height: min(92dvh, 92vh) !important;
+  height: min(92dvh, 920px);
+}
+
+#modal-view-contract #vc-doc-scroll {
+  -webkit-overflow-scrolling: touch;
 }
 
 body.qsk-modal-open #app-sidebar,
@@ -143,12 +156,6 @@ body.qsk-modal-open #sidebar-backdrop {
   .fixed.inset-0:not(.hidden) .flex.justify-center.gap-3,
   .fixed.inset-0:not(.hidden) .flex.items-center.justify-center.gap-3 {
     flex-wrap: wrap;
-  }
-
-  .fixed.inset-0:not(.hidden) .flex.justify-end.gap-3 > button,
-  .fixed.inset-0:not(.hidden) .flex.justify-center.gap-3 > button {
-    flex: 1 1 calc(50% - 0.375rem);
-    min-width: 5.5rem;
   }
 
   .fixed.inset-0:not(.hidden) .relative.flex.min-h-full {
@@ -354,4 +361,19 @@ body.qsk-doc {
 
 body.qsk-modal-open {
   overflow: hidden;
+}
+
+/* —— 弹窗底部操作按钮：标准尺寸，不随容器拉伸 —— */
+.modal-footer-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+
+.modal-footer-actions > button {
+  flex: 0 0 auto;
+  width: auto;
+  min-width: 0;
 }

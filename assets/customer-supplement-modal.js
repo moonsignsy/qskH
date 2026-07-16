@@ -12,8 +12,62 @@
       '.upload-card{height:86px;border:1px solid #dbeafe;border-radius:4px;background:#f0f7ff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:#0ea5e9;font-size:11px;cursor:pointer}' +
       '.entity-type-box{height:34px;width:100%;border:1px solid #e2e8f0;border-radius:4px;padding:0 10px;display:flex;align-items:center;gap:16px;font-size:12px}' +
       '.entity-type-box label{display:inline-flex;align-items:center;gap:6px;color:#475569;cursor:pointer}' +
-      '.shareholder-block+.shareholder-block{margin-top:10px;padding-top:10px;border-top:1px dashed #e2e8f0}';
+      '.shareholder-block+.shareholder-block{margin-top:10px;padding-top:10px;border-top:1px dashed #e2e8f0}' +
+      '.supp-ic-file-item{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:6px 10px;border:1px solid #e2e8f0;border-radius:4px;background:#f8fafc;font-size:12px;color:#334155}' +
+      '.supp-ic-file-remove{color:#94a3b8;cursor:pointer;padding:2px 4px}' +
+      '.supp-ic-file-remove:hover{color:#ef4444}';
     document.head.appendChild(style);
+  }
+
+  function bindIcAttachmentUpload() {
+    ensureStyles();
+    var input = document.getElementById('supp-ic-attachments');
+    var list = document.getElementById('supp-ic-file-list');
+    if (!input || input._icUploadBound) return;
+    input._icUploadBound = true;
+    var files = [];
+
+    function renderFileList() {
+      if (!list) return;
+      if (!files.length) {
+        list.classList.add('hidden');
+        list.innerHTML = '';
+        return;
+      }
+      list.classList.remove('hidden');
+      list.innerHTML = files.map(function (file, index) {
+        return '<li class="supp-ic-file-item">' +
+          '<span class="truncate"><i class="fa-regular fa-file mr-1.5 text-slate-400"></i>' + file.name + '</span>' +
+          '<button type="button" class="supp-ic-file-remove" data-index="' + index + '" aria-label="移除"><i class="fa-solid fa-xmark"></i></button>' +
+          '</li>';
+      }).join('');
+    }
+
+    input.addEventListener('change', function () {
+      Array.prototype.forEach.call(input.files || [], function (file) {
+        files.push(file);
+      });
+      input.value = '';
+      renderFileList();
+    });
+
+    if (list) {
+      list.addEventListener('click', function (e) {
+        var btn = e.target.closest('.supp-ic-file-remove');
+        if (!btn) return;
+        var idx = parseInt(btn.getAttribute('data-index'), 10);
+        if (!isNaN(idx)) {
+          files.splice(idx, 1);
+          renderFileList();
+        }
+      });
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bindIcAttachmentUpload);
+  } else {
+    bindIcAttachmentUpload();
   }
 
   function bindOpenSelectors(selectors) {
@@ -42,6 +96,7 @@
       return;
     }
     modalSupplement._supplementMounted = true;
+    bindIcAttachmentUpload();
 
     var supplementTabs = document.querySelectorAll('#supplement-tabs .supp-tab');
     var suppTaxPanel = document.getElementById('supp-panel-tax');
