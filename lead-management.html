@@ -574,14 +574,14 @@
               <i class="fa-solid fa-angle-down absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs pointer-events-none"></i>
             </div>
           </div>
-          <div class="flex items-center gap-3">
+          <div id="nl-next-follow-row" class="flex items-center gap-3">
             <label class="w-28 shrink-0 text-right text-slate-600">下次跟进</label>
             <div class="relative flex-1">
               <input id="nl-next-follow" type="date" class="w-full h-9 pl-3 pr-3 rounded border border-slate-200 text-slate-700">
             </div>
           </div>
           <div class="flex items-start gap-3">
-            <label class="w-28 shrink-0 text-right text-slate-600 pt-2">跟进内容</label>
+            <label id="nl-follow-label" class="w-28 shrink-0 text-right text-slate-600 pt-2">跟进内容</label>
             <div class="relative flex-1">
               <textarea id="nl-follow-content" maxlength="500" rows="3" placeholder="请输入跟进内容" class="w-full px-3 py-2 rounded border border-slate-200 text-slate-700 resize-y min-h-[80px] focus:outline-none focus:ring-2 focus:ring-blue-400/30 focus:border-blue-400"></textarea>
               <span class="absolute bottom-2 right-3 text-xs text-slate-400 tabular-nums pointer-events-none"><span id="nl-follow-content-len">0</span>/500</span>
@@ -1650,6 +1650,23 @@
         followResult.addEventListener('change', updateFollowFields);
       }
       updateFollowFields();
+
+      function updateNewLeadFields() {
+        var sel = document.getElementById('nl-valid');
+        var nextRow = document.getElementById('nl-next-follow-row');
+        var label = document.getElementById('nl-follow-label');
+        var content = document.getElementById('nl-follow-content');
+        if (!sel) return;
+        var isValid = sel.value === 'valid';
+        setBlockVisible(nextRow, isValid);
+        if (label) label.textContent = isValid ? '跟进内容' : '无效说明';
+        if (content) content.placeholder = isValid ? '请输入跟进内容' : '请输入无效说明';
+      }
+      var nlValid = document.getElementById('nl-valid');
+      if (nlValid) {
+        nlValid.addEventListener('change', updateNewLeadFields);
+        updateNewLeadFields();
+      }
 
       document.getElementById('btn-save-new-lead').addEventListener('click', function () {
         hideModal('new-lead');
