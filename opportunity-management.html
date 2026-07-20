@@ -583,7 +583,7 @@
             <i class="fa-solid fa-angle-down absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs pointer-events-none"></i>
           </div>
         </div>
-        <div class="flex items-center gap-3">
+        <div id="follow-next-time-wrap" class="flex items-center gap-3">
           <label class="w-28 shrink-0 text-right text-slate-600"><span class="text-red-500">*</span> 下次跟进时间</label>
           <div class="relative flex-1">
             <input type="text" value="2026-04-07 10:09" class="w-full h-9 px-3 pr-9 rounded-md border border-slate-200 text-slate-700 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20">
@@ -624,6 +624,7 @@
       var stageSel = document.getElementById('follow-stage');
       var contentWrap = document.getElementById('follow-content-wrap');
       var lostWrap = document.getElementById('follow-lost-wrap');
+      var nextTimeWrap = document.getElementById('follow-next-time-wrap');
       var suppShareholderList = document.getElementById('supp-shareholder-list');
       var suppAddShareholderBtn = document.getElementById('supp-add-shareholder');
       var suppShareholderIndex = 0;
@@ -714,6 +715,10 @@
 
       function updateFollowFields() {
         var lost = stageSel.value === 'lost';
+        if (nextTimeWrap) {
+          nextTimeWrap.classList.toggle('hidden', lost);
+          nextTimeWrap.classList.toggle('flex', !lost);
+        }
         contentWrap.classList.toggle('hidden', lost);
         contentWrap.classList.toggle('flex', !lost);
         lostWrap.classList.toggle('hidden', !lost);
