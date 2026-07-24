@@ -142,7 +142,7 @@
                       <i class="fa-solid fa-angle-down absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs pointer-events-none"></i>
                     </div>
                   </label>
-                  <label class="flex items-center gap-3">
+                  <label id="detail-next-time-wrap" class="flex items-center gap-3">
                     <span class="w-28 shrink-0 text-slate-600"><span class="text-red-500">*</span> 下次跟进时间</span>
                     <div class="relative flex-1">
                       <input type="text" value="2026-04-07 10:09" class="w-full h-9 px-3 pr-9 rounded-md border border-slate-200">
@@ -349,12 +349,17 @@
 
       var detailStage = document.getElementById('detail-stage');
       var followForm = document.getElementById('detail-follow-form');
+      var nextTimeWrap = document.getElementById('detail-next-time-wrap');
       var contentWrap = document.getElementById('detail-content-wrap');
       var lostWrap = document.getElementById('detail-lost-wrap');
       var stageKey = data.stageKey;
 
       function updateDetailFollowFields() {
         var lost = detailStage.value === 'lost';
+        if (nextTimeWrap) {
+          nextTimeWrap.classList.toggle('hidden', lost);
+          nextTimeWrap.classList.toggle('flex', !lost);
+        }
         contentWrap.classList.toggle('hidden', lost);
         lostWrap.classList.toggle('hidden', !lost);
       }
